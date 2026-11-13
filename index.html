@@ -1,0 +1,1725 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fiesta Restaurant | Alta Cocina Norteña</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            cinzel: ['"Cinzel"', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            obsidian: '#060608',
+            charcoal: '#0F0F13',
+            card: '#14151B',
+            gold: '#C5A059',
+            goldLight: '#E5C98B',
+            aji: '#E05A10',
+            emeraldMoche: '#217245',
+            crimson: '#A81C24',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #060608;
+      color: #FFFFFF;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+    }
+    .font-luxury {
+      font-family: 'Cinzel', serif;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #060608;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #23252F;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #C5A059;
+    }
+    /* Custom Range Slider */
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      background: transparent;
+      cursor: pointer;
+    }
+    input[type="range"]::-webkit-slider-runnable-track {
+      background: #1E2029;
+      height: 6px;
+      border-radius: 9999px;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      margin-top: -7px;
+      background: linear-gradient(135deg, #E5C98B 0%, #C5A059 55%, #E05A10 100%);
+      height: 20px;
+      width: 20px;
+      border-radius: 50%;
+      box-shadow: 0 0 12px rgba(197, 160, 89, 0.65);
+      border: 2px solid #060608;
+    }
+    .glass-panel {
+      background: rgba(15, 15, 19, 0.88);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+    .gift-card-foil {
+      background: radial-gradient(circle at top right, rgba(197, 160, 89, 0.22), transparent 55%),
+                  linear-gradient(135deg, #121217 0%, #1C1A15 50%, #09090C 100%);
+      border: 1px solid rgba(197, 160, 89, 0.45);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9), 0 0 35px rgba(197, 160, 89, 0.14);
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-aji selection:text-white pb-24">
+
+  <!-- Hidden File Input for Instant PNG Logo Preview -->
+  <input type="file" id="logoFileInput" accept="image/png,image/jpeg,image/webp" class="hidden" onchange="handleLogoFileChange(event)" />
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="fixed top-24 right-4 z-[60] flex flex-col gap-2 pointer-events-none max-w-[92vw]"></div>
+
+  <!-- STICKY HEADER (Clean PNG Logo Only + Venue Switcher + Navigation + Cart) -->
+  <header class="sticky top-0 z-50 glass-panel border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-3">
+      
+      <!-- Logo Container (Strictly PNG only, no brand text next to it) -->
+      <div class="relative group flex items-center shrink-0">
+        <a href="#inicio" class="block focus:outline-none">
+          <img
+            id="navbarLogoImg"
+            src="./logo.png"
+            alt="Logo"
+            onerror="this.onerror=null;this.src='https://placehold.co/160x56/060608/C5A059?text=LOGO+PNG';"
+            class="h-11 sm:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+          />
+        </a>
+        <button
+          type="button"
+          onclick="document.getElementById('logoFileInput').click()"
+          title="Cargar logo.png local"
+          class="opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity absolute -bottom-2 -right-2 bg-aji text-white p-1.5 rounded-full shadow-lg border border-black/40"
+        >
+          <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden lg:flex items-center gap-1 bg-charcoal p-1.5 rounded-full border border-white/10">
+        <a href="#carta" class="px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider text-gray-300 hover:text-white hover:bg-white/5 transition">Carta</a>
+        <a href="#giftcards" class="px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider text-gold hover:bg-gold/10 transition flex items-center gap-1.5">
+          <span>Gift Cards</span>
+          <span class="text-[9px] bg-aji/20 text-aji border border-aji/40 px-1.5 py-0.5 rounded-full">Lima</span>
+        </a>
+        <a href="#historia" class="px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider text-gray-300 hover:text-white hover:bg-white/5 transition">Historia</a>
+        <a href="#sedes" class="px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider text-gray-300 hover:text-white hover:bg-white/5 transition">Sedes</a>
+        <a href="#trabaja" class="px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider text-gray-300 hover:text-white hover:bg-white/5 transition">Trabaja con Nosotros</a>
+      </nav>
+
+      <!-- Venue Switcher & Cart Trigger -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <!-- Venue Toggle (No Delivery Address Bar) -->
+        <div class="bg-charcoal p-1 rounded-full border border-white/10 flex items-center">
+          <button
+            type="button"
+            id="btnVenueLima"
+            onclick="requestVenueChange('lima')"
+            class="px-3 sm:px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all bg-crimson text-white shadow-md shadow-crimson/40"
+          >
+            Lima
+          </button>
+          <button
+            type="button"
+            id="btnVenueChiclayo"
+            onclick="requestVenueChange('chiclayo')"
+            class="px-3 sm:px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all text-gray-400 hover:text-white"
+          >
+            Chiclayo
+          </button>
+        </div>
+
+        <!-- Cart Button -->
+        <button
+          type="button"
+          onclick="toggleCartDrawer(true)"
+          aria-label="Abrir carrito"
+          class="relative bg-aji hover:bg-[#c84d0b] text-white px-3.5 sm:px-4 py-2.5 rounded-full flex items-center gap-2 text-xs font-bold uppercase tracking-wider shadow-lg shadow-aji/30 transition"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+          </svg>
+          <span class="hidden sm:inline">Pedido</span>
+          <span id="headerCartCount" class="bg-obsidian text-aji text-[11px] font-extrabold px-2 py-0.5 rounded-full border border-aji/40">0</span>
+        </button>
+
+        <!-- Mobile Menu Button -->
+        <button
+          type="button"
+          onclick="toggleMobileNav()"
+          aria-label="Menú"
+          class="lg:hidden p-2.5 rounded-full bg-charcoal border border-white/10 text-gray-200 hover:text-gold"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobileNavPanel" class="hidden lg:hidden bg-charcoal border-t border-white/10 px-4 py-4 space-y-2">
+      <a href="#carta" onclick="toggleMobileNav()" class="block px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-gray-200 hover:bg-white/5">Carta Gourmet</a>
+      <a href="#giftcards" onclick="toggleMobileNav()" class="block px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-gold bg-gold/10 border border-gold/25">Gift Cards Lima (S/ 800 – S/ 5,000)</a>
+      <a href="#historia" onclick="toggleMobileNav()" class="block px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-gray-200 hover:bg-white/5">Nuestra Historia</a>
+      <a href="#sedes" onclick="toggleMobileNav()" class="block px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-gray-200 hover:bg-white/5">Sedes y Contacto</a>
+      <a href="#trabaja" onclick="toggleMobileNav()" class="block px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-gray-200 hover:bg-white/5">Trabaja con Nosotros</a>
+    </div>
+  </header>
+
+  <!-- HERO CAROUSEL: PLATOS ESTELARES -->
+  <section id="inicio" class="relative min-h-[520px] sm:min-h-[600px] flex items-center overflow-hidden border-b border-white/10">
+    <div id="heroSlidesWrapper" class="relative w-full h-[540px] sm:h-[620px]">
+      <!-- Rendered via JS -->
+    </div>
+
+    <!-- Prev / Next Controls -->
+    <button
+      type="button"
+      onclick="prevHeroSlide()"
+      aria-label="Anterior plato estelar"
+      class="absolute left-3 sm:left-6 z-20 p-3 rounded-full bg-charcoal/80 hover:bg-aji text-white border border-white/15 backdrop-blur-md transition shadow-xl"
+    >
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+    </button>
+    <button
+      type="button"
+      onclick="nextHeroSlide()"
+      aria-label="Siguiente plato estelar"
+      class="absolute right-3 sm:right-6 z-20 p-3 rounded-full bg-charcoal/80 hover:bg-aji text-white border border-white/15 backdrop-blur-md transition shadow-xl"
+    >
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+    </button>
+
+    <!-- Slide Dots -->
+    <div id="heroDots" class="absolute bottom-6 inset-x-0 z-20 flex justify-center gap-2"></div>
+  </section>
+
+  <!-- CARTA E-COMMERCE SECTION -->
+  <section id="carta" class="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+      <div>
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emeraldMoche/15 border border-emeraldMoche/40 text-emerald-400 text-[10px] font-bold uppercase tracking-[0.22em] mb-3">
+          <span>● Carta Activa</span>
+        </div>
+        <h2 class="font-luxury text-3xl sm:text-5xl font-bold text-white">
+          Carta Gourmet — <span id="activeVenueHeading" class="text-gold">Sede Lima</span>
+        </h2>
+        <p id="activeVenueSubheading" class="text-gray-400 text-xs sm:text-sm mt-2 max-w-2xl">
+          Av. Reducto 1278, Miraflores • Selección de alta cocina lambayecana preparada al momento.
+        </p>
+      </div>
+
+      <!-- Search Input -->
+      <div class="relative w-full md:w-72">
+        <input
+          type="text"
+          id="menuSearchInput"
+          oninput="renderMenuGrid()"
+          placeholder="Buscar plato o insumo..."
+          class="w-full bg-charcoal border border-white/10 focus:border-gold rounded-full pl-10 pr-4 py-2.5 text-xs text-white placeholder-gray-500 focus:outline-none transition"
+        />
+        <svg class="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Category Pills -->
+    <div id="categoryFilterBar" class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-4 mb-8 border-b border-white/10">
+      <!-- Rendered via JS -->
+    </div>
+
+    <!-- Menu Cards Grid -->
+    <div id="menuCardsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+      <!-- Rendered via JS -->
+    </div>
+  </section>
+
+  <!-- GIFT CARDS SECTION (EXCLUSIVELY LIMA, S/ 800 TO S/ 5,000) -->
+  <section id="giftcards" class="py-20 bg-charcoal border-y border-gold/25 relative overflow-hidden">
+    <div class="absolute -top-32 -right-32 w-96 h-96 bg-gold/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -bottom-32 -left-32 w-96 h-96 bg-aji/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="max-w-3xl mb-12">
+        <span class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gold/15 border border-gold/40 text-gold text-[10px] font-extrabold uppercase tracking-[0.25em] mb-3">
+          Exclusivo Sede Lima • Miraflores
+        </span>
+        <h2 class="font-luxury text-3xl sm:text-5xl font-bold text-white">
+          Gift Cards <span class="text-gold">Fiesta Lima</span>
+        </h2>
+        <p class="text-gray-300 text-xs sm:text-sm mt-3 leading-relaxed">
+          Regale una experiencia culinaria inolvidable en nuestro salón de Miraflores. Experiencias disponibles desde <strong class="text-gold">S/ 800</strong> hasta <strong class="text-gold">S/ 5,000</strong>. Válida exclusivamente en Sede Lima.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+        <!-- Left: Live Luxury Card Preview -->
+        <div class="lg:col-span-6 lg:sticky lg:top-28 space-y-4">
+          <div class="gift-card-foil rounded-3xl p-6 sm:p-8 aspect-[1.586/1] flex flex-col justify-between relative overflow-hidden">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <span class="text-[10px] uppercase tracking-[0.28em] text-gold font-bold block">Haute Cuisine Experience</span>
+                <h3 class="font-luxury text-2xl sm:text-3xl font-bold text-white mt-1">GIFT CARD LIMA</h3>
+              </div>
+              <span id="gcPreviewTier" class="px-3 py-1 rounded-full bg-gold/20 border border-gold/50 text-goldLight text-[10px] font-bold uppercase tracking-widest">
+                Reserva Oro
+              </span>
+            </div>
+
+            <div class="my-auto py-3">
+              <span class="text-[10px] uppercase tracking-widest text-gray-400 block mb-1">Dedicatoria Personalizada</span>
+              <p id="gcPreviewMessage" class="font-luxury italic text-base sm:text-xl text-gray-100 line-clamp-2">
+                “Una velada inolvidable de alta cocina norteña en Miraflores.”
+              </p>
+            </div>
+
+            <div class="flex items-end justify-between gap-4 border-t border-gold/25 pt-4">
+              <div>
+                <span class="text-[10px] uppercase tracking-widest text-gray-400 block">Valor Digital</span>
+                <span id="gcPreviewAmount" class="font-luxury text-2xl sm:text-4xl font-extrabold text-aji">S/ 800.00</span>
+              </div>
+              <div class="text-right">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-400 block">Uso Exclusivo Lima</span>
+                <span class="text-[10px] text-gray-400 block">Av. Reducto 1278, Miraflores</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-obsidian/90 border border-crimson/40 flex items-start gap-3">
+            <span class="text-crimson font-bold text-sm">!</span>
+            <p class="text-xs text-gray-300 leading-relaxed">
+              <strong class="text-white">Restricción de Sede:</strong> Las Gift Cards son válidas <span class="text-gold font-semibold">únicamente en Sede Lima (Miraflores)</span>. No aplican para consumo ni delivery en Chiclayo.
+            </p>
+          </div>
+        </div>
+
+        <!-- Right: Gift Card Selector & Personalization -->
+        <div class="lg:col-span-6 bg-obsidian border border-white/10 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl">
+          <div>
+            <label class="text-xs font-bold uppercase tracking-wider text-gold block mb-3">1. Seleccione Monto de Experiencia</label>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              <button type="button" onclick="selectGiftCardPreset(800)" data-preset="800" class="gc-preset-btn p-3 rounded-2xl border border-gold bg-gold/15 text-left transition">
+                <span class="block text-[9px] uppercase tracking-wider text-goldLight font-bold">Reserva Oro</span>
+                <span class="font-luxury text-lg font-bold text-white">S/ 800</span>
+              </button>
+              <button type="button" onclick="selectGiftCardPreset(1500)" data-preset="1500" class="gc-preset-btn p-3 rounded-2xl border border-white/10 bg-charcoal hover:border-gold/50 text-left transition">
+                <span class="block text-[9px] uppercase tracking-wider text-gray-400 font-bold">Gran Mesa</span>
+                <span class="font-luxury text-lg font-bold text-white">S/ 1,500</span>
+              </button>
+              <button type="button" onclick="selectGiftCardPreset(3000)" data-preset="3000" class="gc-preset-btn p-3 rounded-2xl border border-white/10 bg-charcoal hover:border-gold/50 text-left transition">
+                <span class="block text-[9px] uppercase tracking-wider text-gray-400 font-bold">Cava Privada</span>
+                <span class="font-luxury text-lg font-bold text-white">S/ 3,000</span>
+              </button>
+              <button type="button" onclick="selectGiftCardPreset(5000)" data-preset="5000" class="gc-preset-btn p-3 rounded-2xl border border-white/10 bg-charcoal hover:border-gold/50 text-left transition">
+                <span class="block text-[9px] uppercase tracking-wider text-gray-400 font-bold">Embajador</span>
+                <span class="font-luxury text-lg font-bold text-white">S/ 5,000</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-charcoal border border-white/10 space-y-3">
+            <div class="flex items-center justify-between gap-2">
+              <label for="gcAmountInput" class="text-xs font-bold uppercase tracking-wider text-gold">2. Monto Personalizado (S/ 800 – S/ 5,000)</label>
+              <div class="flex items-center bg-obsidian border border-gold/40 rounded-xl px-3 py-1.5">
+                <span class="text-gold font-bold text-xs mr-1.5">S/</span>
+                <input
+                  type="number"
+                  id="gcAmountInput"
+                  min="800"
+                  max="5000"
+                  step="50"
+                  value="800"
+                  oninput="handleGiftCardNumberInput(this.value)"
+                  onblur="enforceGiftCardBounds()"
+                  class="w-24 bg-transparent text-white font-bold text-sm text-right focus:outline-none"
+                />
+              </div>
+            </div>
+            <input
+              type="range"
+              id="gcAmountSlider"
+              min="800"
+              max="5000"
+              step="50"
+              value="800"
+              oninput="handleGiftCardSliderInput(this.value)"
+              class="w-full"
+            />
+            <div class="flex justify-between text-[10px] text-gray-400 font-semibold">
+              <span>Mínimo: S/ 800</span>
+              <span>S/ 2,500</span>
+              <span>Máximo: S/ 5,000</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="text-[11px] uppercase tracking-wider text-gray-400 block mb-1">Nombre del Destinatario</label>
+              <input type="text" id="gcRecipientName" placeholder="Ej. Valeria Mendoza" class="w-full bg-charcoal border border-white/10 focus:border-gold rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none" />
+            </div>
+            <div>
+              <label class="text-[11px] uppercase tracking-wider text-gray-400 block mb-1">Correo del Destinatario</label>
+              <input type="email" id="gcRecipientEmail" placeholder="valeria@ejemplo.com" class="w-full bg-charcoal border border-white/10 focus:border-gold rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none" />
+            </div>
+          </div>
+
+          <div>
+            <label class="text-[11px] uppercase tracking-wider text-gray-400 block mb-1">Dedicatoria (Opcional)</label>
+            <textarea
+              id="gcDedicationInput"
+              rows="2"
+              maxlength="110"
+              oninput="updateGiftCardDedication(this.value)"
+              placeholder="Escribe un mensaje especial para el destinatario..."
+              class="w-full bg-charcoal border border-white/10 focus:border-gold rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none resize-none"
+            ></textarea>
+          </div>
+
+          <button
+            type="button"
+            onclick="addGiftCardToCart()"
+            class="w-full py-4 rounded-full bg-aji hover:bg-[#c84d0b] text-white font-extrabold text-xs uppercase tracking-widest shadow-xl shadow-aji/30 transition"
+          >
+            <span id="gcAddButtonLabel">Agregar Gift Card Lima • S/ 800.00</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NUESTRA HISTORIA -->
+  <section id="historia" class="py-20 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+      <div class="relative rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
+        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=900&q=80" alt="Tradición en Cobre" class="w-full h-80 sm:h-96 object-cover" />
+        <div class="absolute inset-0 bg-gradient-to-t from-obsidian via-transparent to-transparent"></div>
+      </div>
+      <div class="space-y-4">
+        <span class="text-[10px] font-extrabold uppercase tracking-[0.25em] text-emerald-400">Patrimonio Culinario desde 1983</span>
+        <h2 class="font-luxury text-3xl sm:text-4xl font-bold text-white">El Culto al Cobre, Loche y Brasa</h2>
+        <p class="text-gray-300 text-xs sm:text-sm leading-relaxed">
+          Nacido en Chiclayo en 1983, nuestro restaurante elevó el recetario ancestral mochica y lambayecano a la alta gastronomía contemporánea. Respetamos la cocción lenta en cazuelas de cobre, el zapallo loche orgánico de Olmos y la chicha de jora fermentada en tinajas de barro.
+        </p>
+        <p class="text-gray-400 text-xs sm:text-sm leading-relaxed">
+          Creaciones emblemáticas como el <strong class="text-gold">Ceviche Caliente de Mero a las Brasas</strong> marcaron un hito en la cocina peruana moderna, uniendo nuestras sedes de Chiclayo y Miraflores (Lima).
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEDES Y CONTACTO -->
+  <section id="sedes" class="py-16 bg-charcoal border-t border-white/10">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <span class="text-[10px] font-bold uppercase tracking-[0.25em] text-gold">Hospitalidad Norteña</span>
+        <h2 class="font-luxury text-3xl sm:text-4xl font-bold text-white mt-2">Nuestras Sedes</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-obsidian border border-gold/35 rounded-3xl p-6 sm:p-8 space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="font-luxury text-xl font-bold text-white">Sede Lima — Miraflores</h3>
+            <span class="text-[10px] font-bold uppercase px-2.5 py-1 rounded-full bg-gold/15 text-gold border border-gold/30">Gift Cards Activas</span>
+          </div>
+          <p class="text-xs text-gray-300"><strong>Dirección:</strong> Av. Reducto 1278, Miraflores, Lima</p>
+          <p class="text-xs text-gray-300"><strong>Horario:</strong> Lunes a Sábado 12:00 pm – 11:00 pm | Domingos 12:00 pm – 5:00 pm</p>
+          <p class="text-xs text-gray-300"><strong>WhatsApp Directo:</strong> +51 987 654 321</p>
+          <button type="button" onclick="window.open('https://wa.me/51987654321', '_blank')" class="w-full py-3 rounded-full bg-emeraldMoche hover:bg-[#1a5c37] text-white text-xs font-bold uppercase tracking-wider transition">
+            Contactar Sede Lima
+          </button>
+        </div>
+
+        <div class="bg-obsidian border border-white/10 rounded-3xl p-6 sm:p-8 space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="font-luxury text-xl font-bold text-white">Sede Chiclayo — Salaverry</h3>
+            <span class="text-[10px] font-bold uppercase px-2.5 py-1 rounded-full bg-white/10 text-gray-300">Casa Matriz</span>
+          </div>
+          <p class="text-xs text-gray-300"><strong>Dirección:</strong> Av. Salaverry 1820, Chiclayo, Lambayeque</p>
+          <p class="text-xs text-gray-300"><strong>Horario:</strong> Lunes a Domingo 12:00 pm – 10:30 pm</p>
+          <p class="text-xs text-gray-300"><strong>WhatsApp Directo:</strong> +51 976 543 210</p>
+          <button type="button" onclick="window.open('https://wa.me/51976543210', '_blank')" class="w-full py-3 rounded-full bg-card hover:bg-white/10 border border-white/15 text-white text-xs font-bold uppercase tracking-wider transition">
+            Contactar Sede Chiclayo
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRABAJA CON NOSOTROS -->
+  <section id="trabaja" class="py-16 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="bg-charcoal border border-white/10 rounded-3xl p-6 sm:p-10">
+      <h2 class="font-luxury text-2xl sm:text-3xl font-bold text-white text-center mb-2">Trabaja con Nosotros</h2>
+      <p class="text-xs text-gray-400 text-center mb-6">Forma parte de nuestra brigada culinaria y de hospitalidad en Lima o Chiclayo.</p>
+      <form onsubmit="submitCareersForm(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <input type="text" required placeholder="Nombre completo" class="bg-obsidian border border-white/10 focus:border-gold rounded-xl px-4 py-3 text-xs text-white focus:outline-none" />
+        <input type="email" required placeholder="Correo electrónico" class="bg-obsidian border border-white/10 focus:border-gold rounded-xl px-4 py-3 text-xs text-white focus:outline-none" />
+        <select required class="bg-obsidian border border-white/10 focus:border-gold rounded-xl px-4 py-3 text-xs text-white focus:outline-none">
+          <option value="">Selecciona Sede</option>
+          <option value="Lima">Sede Lima (Miraflores)</option>
+          <option value="Chiclayo">Sede Chiclayo</option>
+        </select>
+        <select required class="bg-obsidian border border-white/10 focus:border-gold rounded-xl px-4 py-3 text-xs text-white focus:outline-none">
+          <option value="">Área de Interés</option>
+          <option value="Cocina">Cocina & Producción</option>
+          <option value="Salon">Salón & Sommelier</option>
+          <option value="Bar">Bar & Coctelería</option>
+        </select>
+        <textarea rows="3" placeholder="Experiencia previa..." class="sm:col-span-2 bg-obsidian border border-white/10 focus:border-gold rounded-xl px-4 py-3 text-xs text-white focus:outline-none"></textarea>
+        <button type="submit" class="sm:col-span-2 py-3.5 rounded-full bg-aji hover:bg-[#c84d0b] text-white font-bold text-xs uppercase tracking-widest transition">
+          Enviar Postulación
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER (Strictly PNG Logo Only, No Brand Text) -->
+  <footer class="bg-obsidian border-t border-white/10 py-10 px-4">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
+      <div class="relative group flex items-center">
+        <a href="#inicio">
+          <img
+            id="footerLogoImg"
+            src="./logo.png"
+            alt="Logo"
+            onerror="this.onerror=null;this.src='https://placehold.co/160x56/060608/C5A059?text=LOGO+PNG';"
+            class="h-11 w-auto object-contain"
+          />
+        </a>
+      </div>
+
+      <div class="flex flex-wrap justify-center gap-5 text-[11px] font-bold uppercase tracking-wider text-gray-400">
+        <a href="#carta" class="hover:text-gold transition">Carta</a>
+        <a href="#giftcards" class="hover:text-gold transition">Gift Cards Lima</a>
+        <a href="#historia" class="hover:text-gold transition">Historia</a>
+        <a href="#sedes" class="hover:text-gold transition">Sedes</a>
+        <a href="#trabaja" class="hover:text-gold transition">Trabaja con Nosotros</a>
+      </div>
+
+      <p class="text-[11px] text-gray-500 text-center sm:text-right">
+        © 2026 Todos los derechos reservados • Lima & Chiclayo
+      </p>
+    </div>
+  </footer>
+
+  <!-- FLOATING RAPPI / PEDIDOSYA STYLE BOTTOM CART BAR -->
+  <div id="floatingCartBar" class="hidden fixed bottom-4 inset-x-4 z-40 max-w-xl mx-auto">
+    <div class="bg-aji p-3.5 rounded-2xl shadow-2xl shadow-black/90 border border-white/15 flex items-center justify-between gap-3">
+      <div class="flex items-center gap-3 min-w-0">
+        <img id="floatingLastImg" src="" alt="Plato" class="w-11 h-11 rounded-xl object-cover border border-black/30 shrink-0" />
+        <div class="min-w-0">
+          <div class="flex items-center gap-2">
+            <span id="floatingCartBadge" class="bg-obsidian text-aji text-[11px] font-extrabold px-2 py-0.5 rounded-md">0</span>
+            <span id="floatingVenueTag" class="text-[10px] font-bold uppercase tracking-wider text-white/90 truncate">Sede Lima</span>
+          </div>
+          <span id="floatingCartTotal" class="font-luxury text-base font-extrabold text-white block">S/ 0.00</span>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        onclick="toggleCartDrawer(true)"
+        class="bg-obsidian hover:bg-black text-white px-5 py-2.5 rounded-xl text-xs font-extrabold uppercase tracking-wider flex items-center gap-1.5 shrink-0 transition"
+      >
+        <span>Ver mi Pedido</span>
+        <svg class="w-4 h-4 text-aji" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- DISH CUSTOMIZATION MODAL -->
+  <div id="dishModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/85 backdrop-blur-md">
+    <div class="bg-charcoal border border-gold/40 rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto relative shadow-2xl">
+      <button type="button" onclick="closeDishModal()" class="absolute top-3 right-3 z-10 bg-black/70 hover:bg-aji text-white p-2 rounded-full transition">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+      <div class="h-56 relative">
+        <img id="modalDishImg" src="" alt="Plato" class="w-full h-full object-cover" />
+        <div class="absolute inset-0 bg-gradient-to-t from-charcoal via-transparent to-transparent"></div>
+      </div>
+      <div class="p-6 space-y-4">
+        <div>
+          <span id="modalDishBadge" class="text-[10px] font-bold uppercase tracking-widest text-aji"></span>
+          <h3 id="modalDishTitle" class="font-luxury text-2xl font-bold text-white mt-1"></h3>
+          <p id="modalDishDesc" class="text-xs text-gray-300 mt-2 leading-relaxed"></p>
+          <p id="modalDishPrice" class="font-luxury text-2xl font-extrabold text-aji mt-2"></p>
+        </div>
+
+        <div id="modalOptionsContainer" class="space-y-4 border-t border-white/10 pt-4"></div>
+
+        <div>
+          <label class="text-[11px] font-bold uppercase tracking-wider text-gray-400 block mb-1">Notas para el Chef</label>
+          <input type="text" id="modalDishNotes" placeholder="Ej. Sin cebolla, punto de cocción..." class="w-full bg-obsidian border border-white/10 focus:border-gold rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none" />
+        </div>
+
+        <div class="flex items-center justify-between pt-2 border-t border-white/10">
+          <div class="flex items-center bg-obsidian border border-white/10 rounded-full">
+            <button type="button" onclick="changeModalQty(-1)" class="px-3.5 py-2 text-gray-300 hover:text-white font-bold">−</button>
+            <span id="modalDishQty" class="px-3 text-xs font-bold text-white">1</span>
+            <button type="button" onclick="changeModalQty(1)" class="px-3.5 py-2 text-gold font-bold">+</button>
+          </div>
+          <button
+            type="button"
+            onclick="confirmAddDishFromModal()"
+            class="bg-aji hover:bg-[#c84d0b] text-white px-6 py-3 rounded-full text-xs font-extrabold uppercase tracking-wider shadow-lg transition"
+          >
+            Agregar • <span id="modalBtnSubtotal">S/ 0.00</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VENUE CHANGE WARNING MODAL -->
+  <div id="venueWarningModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/85 backdrop-blur-sm">
+    <div class="bg-charcoal border border-crimson/60 rounded-3xl p-6 max-w-sm w-full text-center space-y-4 shadow-2xl">
+      <div class="w-12 h-12 rounded-full bg-crimson/20 text-crimson mx-auto flex items-center justify-center font-bold text-xl">!</div>
+      <h3 class="font-luxury text-xl font-bold text-white">¿Cambiar de Sede?</h3>
+      <p class="text-xs text-gray-300 leading-relaxed">
+        Tienes productos en tu carrito actual. Al cambiar a <strong id="targetVenueLabel" class="text-gold">Chiclayo</strong> se vaciará el carrito para cargar la carta correspondiente.
+      </p>
+      <div class="flex gap-3 pt-2">
+        <button type="button" onclick="cancelVenueChange()" class="flex-1 py-2.5 rounded-full border border-white/15 text-xs font-bold text-gray-300 hover:text-white">Cancelar</button>
+        <button type="button" onclick="confirmVenueChange()" class="flex-1 py-2.5 rounded-full bg-crimson text-white text-xs font-bold">Sí, Cambiar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RAPPI / PEDIDOSYA STYLE SIDE CART DRAWER WITH DISH THUMBNAILS -->
+  <div id="cartDrawerBackdrop" onclick="toggleCartDrawer(false)" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-xs"></div>
+  <aside id="cartDrawer" class="fixed top-0 right-0 z-50 h-full w-full max-w-md bg-obsidian border-l border-white/10 shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
+    
+    <!-- Drawer Header -->
+    <div class="p-5 border-b border-white/10 bg-charcoal flex items-center justify-between">
+      <div>
+        <h3 class="font-luxury text-lg font-bold text-white">Tu Pedido Gourmet</h3>
+        <span id="drawerVenueSubtitle" class="text-[11px] font-bold text-gold uppercase tracking-wider">Sede Lima • Miraflores</span>
+      </div>
+      <button type="button" onclick="toggleCartDrawer(false)" aria-label="Cerrar" class="p-2 rounded-full bg-obsidian border border-white/10 text-gray-300 hover:text-white">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <!-- Live Chef Status Strip -->
+    <div class="px-5 py-2.5 bg-emeraldMoche/15 border-b border-emeraldMoche/30 flex items-center justify-between text-[11px]">
+      <span class="text-emerald-400 font-bold flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Cocina Activa
+      </span>
+      <span class="text-gray-300">Tiempo est.: <strong class="text-white">30 – 45 min</strong></span>
+    </div>
+
+    <!-- Scrollable Cart Items + Checkout Options -->
+    <div class="flex-1 overflow-y-auto p-5 space-y-6">
+      
+      <!-- Delivery vs Recojo Toggle -->
+      <div class="grid grid-cols-2 gap-2 bg-charcoal p-1 rounded-full border border-white/10">
+        <button type="button" id="btnModeDelivery" onclick="setDeliveryMode('delivery')" class="py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-aji text-white shadow transition">
+          Delivery (S/ 12)
+        </button>
+        <button type="button" id="btnModePickup" onclick="setDeliveryMode('pickup')" class="py-2 rounded-full text-xs font-bold uppercase tracking-wider text-gray-400 hover:text-white transition">
+          Recojo en Salón
+        </button>
+      </div>
+
+      <!-- Cart Items List (With Dish Thumbnails!) -->
+      <div id="cartItemsList" class="space-y-3">
+        <!-- Rendered dynamically via JS -->
+      </div>
+
+      <!-- Customer & Payment Details (Shown when cart has items) -->
+      <div id="drawerCheckoutForm" class="hidden space-y-4 pt-4 border-t border-white/10">
+        <h4 class="font-luxury text-sm font-bold text-gold uppercase tracking-wider">Datos de Confirmación</h4>
+        
+        <div class="space-y-2.5">
+          <input type="text" id="orderCustomerName" placeholder="Nombre completo *" class="w-full bg-charcoal border border-white/10 focus:border-gold rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none" />
+          <input type="tel" id="orderCustomerPhone" placeholder="Teléfono / WhatsApp *" class="w-full bg-charcoal border border-white/10 focus:border-gold rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none" />
+          <input type="text" id="orderCustomerAddress" placeholder="Dirección de entrega y referencia *" class="w-full bg-charcoal border border-white/10 focus:border-gold rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none" />
+        </div>
+
+        <!-- Payment Selector -->
+        <div class="space-y-2">
+          <label class="text-[11px] font-bold uppercase tracking-wider text-gray-400 block">Método de Pago</label>
+          <div class="grid grid-cols-3 gap-2">
+            <button type="button" onclick="selectPaymentMethod('yape')" data-pay="yape" class="pay-method-btn py-2 px-2 rounded-xl border border-aji bg-aji/15 text-white text-[11px] font-bold text-center">Yape / Plin</button>
+            <button type="button" onclick="selectPaymentMethod('tarjeta')" data-pay="tarjeta" class="pay-method-btn py-2 px-2 rounded-xl border border-white/10 bg-charcoal text-gray-400 text-[11px] font-bold text-center">Tarjeta POS</button>
+            <button type="button" onclick="selectPaymentMethod('efectivo')" data-pay="efectivo" class="pay-method-btn py-2 px-2 rounded-xl border border-white/10 bg-charcoal text-gray-400 text-[11px] font-bold text-center">Efectivo</button>
+          </div>
+        </div>
+
+        <!-- Yape / Plin QR Box -->
+        <div id="yapeQrBox" class="p-4 rounded-2xl bg-charcoal border border-gold/30 flex items-center gap-4">
+          <div class="w-20 h-20 rounded-xl bg-white p-1.5 shrink-0 flex items-center justify-center">
+            <svg viewBox="0 0 100 100" class="w-full h-full text-black">
+              <rect x="5" y="5" width="25" height="25" fill="none" stroke="currentColor" stroke-width="6"/>
+              <rect x="12" y="12" width="11" height="11" fill="currentColor"/>
+              <rect x="70" y="5" width="25" height="25" fill="none" stroke="currentColor" stroke-width="6"/>
+              <rect x="77" y="12" width="11" height="11" fill="currentColor"/>
+              <rect x="5" y="70" width="25" height="25" fill="none" stroke="currentColor" stroke-width="6"/>
+              <rect x="12" y="77" width="11" height="11" fill="currentColor"/>
+              <rect x="38" y="38" width="24" height="24" fill="currentColor"/>
+              <rect x="42" y="12" width="10" height="16" fill="currentColor"/>
+              <rect x="12" y="44" width="16" height="10" fill="currentColor"/>
+              <rect x="70" y="44" width="20" height="10" fill="currentColor"/>
+              <rect x="44" y="70" width="12" height="20" fill="currentColor"/>
+              <rect x="68" y="68" width="24" height="24" fill="none" stroke="currentColor" stroke-width="5"/>
+              <rect x="76" y="76" width="8" height="8" fill="currentColor"/>
+            </svg>
+          </div>
+          <div class="text-xs space-y-1">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-gold block">Yape / Plin Oficial</span>
+            <p id="yapePhoneDisplay" class="font-bold text-white text-sm">+51 987 654 321</p>
+            <p class="text-[11px] text-gray-400 leading-snug">Adjunta la captura al enviar el pedido por WhatsApp.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Drawer Footer Totals & WhatsApp Dispatch -->
+    <div id="drawerFooter" class="hidden p-5 border-t border-white/10 bg-charcoal space-y-3">
+      <div class="space-y-1 text-xs text-gray-400">
+        <div class="flex justify-between">
+          <span>Subtotal</span>
+          <span id="summarySubtotal" class="font-bold text-white">S/ 0.00</span>
+        </div>
+        <div class="flex justify-between">
+          <span>Envío</span>
+          <span id="summaryShipping" class="font-bold text-white">S/ 12.00</span>
+        </div>
+        <div class="flex justify-between text-base font-bold text-aji pt-2 border-t border-white/10">
+          <span>Total</span>
+          <span id="summaryTotal" class="font-luxury text-lg">S/ 0.00</span>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        onclick="sendOrderViaWhatsApp()"
+        class="w-full py-3.5 rounded-full bg-emeraldMoche hover:bg-[#1a5c37] text-white font-extrabold text-xs uppercase tracking-widest shadow-lg flex items-center justify-center gap-2 transition"
+      >
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/></svg>
+        <span>Confirmar en WhatsApp</span>
+      </button>
+    </div>
+  </aside>
+
+  <script>
+    // --- DATA & CONFIGURATION ---
+    const VENUES = {
+      lima: {
+        id: 'lima',
+        name: 'Sede Lima',
+        fullTitle: 'Sede Lima • Miraflores',
+        subtitle: 'Av. Reducto 1278, Miraflores • Selección de alta cocina lambayecana preparada al momento.',
+        phone: '+51 987 654 321',
+        whatsapp: '51987654321'
+      },
+      chiclayo: {
+        id: 'chiclayo',
+        name: 'Sede Chiclayo',
+        fullTitle: 'Sede Chiclayo • Salaverry',
+        subtitle: 'Av. Salaverry 1820, Chiclayo • La cuna original del loche de Olmos y cazuelas de cobre.',
+        phone: '+51 976 543 210',
+        whatsapp: '51976543210'
+      }
+    };
+
+    const STAR_SLIDES = [
+      {
+        dishId: 'fl1',
+        venue: 'lima',
+        tag: 'Plato Emblema Mundial',
+        title: 'Ceviche Caliente de Mero a las Brasas',
+        subtitle: 'Creación original de la casa desde 1983',
+        desc: 'Filete de mero murique macerado en ají mochero, asado sobre hojas de plátano con chicha de jora.',
+        price: 118.00,
+        image: 'https://images.unsplash.com/photo-1535399831218-d5bd36d1a6b3?auto=format&fit=crop&w=1600&q=80'
+      },
+      {
+        dishId: 'fl4',
+        venue: 'lima',
+        tag: 'Tradición en Cobre',
+        title: 'Cabrito Lechal al Horno de Cobre',
+        subtitle: 'Cocción lenta de 10 horas con loche de Olmos',
+        desc: 'Cabrito lechal tierno guisado en cazuela de cobre con chicha de tinaja, frijoles batidos y yuca dorada.',
+        price: 135.00,
+        image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1600&q=80'
+      },
+      {
+        dishId: 'fl5',
+        venue: 'lima',
+        tag: 'Señorío Lambayecano',
+        title: 'Arroz con Pato Criollo a la Chiclayana',
+        subtitle: 'Infusión de culantro fresco y cerveza negra',
+        desc: 'Pato tierno de corral con arroz aromatizado al culantro, virutas de zapallo loche y zarza criolla.',
+        price: 110.00,
+        image: 'https://images.unsplash.com/photo-1625943553852-781c6dd46faa?auto=format&fit=crop&w=1600&q=80'
+      },
+      {
+        dishId: 'fc1',
+        venue: 'chiclayo',
+        tag: 'Herencia Ancestral Mochica',
+        title: 'Espesado Chiclayano con Pecho de Res',
+        subtitle: 'Molido en batán de piedra con loche',
+        desc: 'Potaje ritual preparado con choclo tierno de leche, culantro silvestre, yuca suave y carne de pecho.',
+        price: 54.00,
+        image: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&w=1600&q=80'
+      }
+    ];
+
+    const MENU_ITEMS = {
+      lima: [
+        {
+          id: 'fl1',
+          title: 'Ceviche Caliente de Mero a las Brasas',
+          category: 'Entradas & Ceviches',
+          price: 118.00,
+          badge: 'Icono Mundial',
+          desc: 'Mero murique salvaje macerado en ají mochero, asado a las brasas sobre hoja de plátano y leche de tigre.',
+          image: 'https://images.unsplash.com/photo-1535399831218-d5bd36d1a6b3?auto=format&fit=crop&w=800&q=80',
+          spicyLevels: ['Sin Picante', 'Leve (Ají Limo)', 'Medio (Recomendado)', 'Intenso Mochero'],
+          sides: ['Camote Glaseado', 'Choclo Desgranado', 'Zarandaja Guisada']
+        },
+        {
+          id: 'fl2',
+          title: 'Tiradito de Lenguado con Cocona',
+          category: 'Entradas & Ceviches',
+          price: 88.00,
+          badge: 'Alta Cocina',
+          desc: 'Láminas finas de lenguado de peña en emulsión de ají charapita y chalaquita crocante de cocona.',
+          image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=800&q=80',
+          spicyLevels: ['Sin Picante', 'Leve', 'Tradicional'],
+          sides: ['Choclo Criollo', 'Camote']
+        },
+        {
+          id: 'fl3',
+          title: 'Causa Imperial de Cangrejo Real',
+          category: 'Entradas & Ceviches',
+          price: 76.00,
+          badge: 'Recomendado',
+          desc: 'Papa amarilla prensada al ají amarillo orgánico, pulpa limpia de cangrejo y crema de palta ahumada.',
+          image: 'https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=800&q=80',
+          spicyLevels: ['Sin Picante', 'Leve'],
+          sides: ['Extra Palta Ahumada']
+        },
+        {
+          id: 'fl4',
+          title: 'Cabrito Lechal al Horno de Cobre',
+          category: 'Especialidades Norteñas',
+          price: 135.00,
+          badge: 'Especialidad Master',
+          desc: 'Braseado por 10 horas en cazuela de cobre con chicha de jora fermentada y zapallo loche de Olmos.',
+          image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
+          sides: ['Tacu Tacu de Loche', 'Yucas Doradas', 'Arroz al Culantro']
+        },
+        {
+          id: 'fl5',
+          title: 'Arroz con Pato Criollo a la Chiclayana',
+          category: 'Especialidades Norteñas',
+          price: 110.00,
+          badge: 'Más Vendido',
+          desc: 'Pato negro de corral con arroz infusionado en culantro fresco, cerveza negra y virutas de loche.',
+          image: 'https://images.unsplash.com/photo-1625943553852-781c6dd46faa?auto=format&fit=crop&w=800&q=80',
+          sides: ['Salsa Criolla Extra', 'Papa a la Huancaína']
+        },
+        {
+          id: 'fl6',
+          title: 'Lomo Saltado al Wok Fiesta',
+          category: 'Carnes & Parrilla',
+          price: 98.00,
+          badge: 'Favorito VIP',
+          desc: 'Lomo fino Angus flambeado al pisco Quebranta con cebolla morada crujiente y papas amarillas al hilo.',
+          image: 'https://images.unsplash.com/photo-1501595091296-3aa970afb3ff?auto=format&fit=crop&w=800&q=80',
+          sides: ['Arroz con Choclo', 'Papas Amarillas Fritas']
+        },
+        {
+          id: 'fl7',
+          title: 'Pisco Sour Fiesta Gold 24k',
+          category: 'Bebidas & Postres',
+          price: 48.00,
+          badge: 'Coctelería de Autor',
+          desc: 'Pisco Quebranta Gran Reserva, lima de Chosica, amargo de angostura y láminas comestibles de oro 24k.',
+          image: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=800&q=80'
+        },
+        {
+          id: 'fl8',
+          title: 'King Kong Artesanal Higo & Manjar',
+          category: 'Bebidas & Postres',
+          price: 42.00,
+          badge: 'Postre de Autor',
+          desc: 'Capas hojaldradas crocantes rellenas de manjar de olla, dulce de higos de chacra y piña caramelizada.',
+          image: 'https://images.unsplash.com/photo-1579372786545-d24232daf58c?auto=format&fit=crop&w=800&q=80'
+        }
+      ],
+      chiclayo: [
+        {
+          id: 'fc1',
+          title: 'Espesado Chiclayano Ancestral',
+          category: 'Entradas & Ceviches',
+          price: 54.00,
+          badge: 'Tradición Mochica',
+          desc: 'Choclo tierno molido en batán con culantro, yuca suave y corte jugoso de pecho de res.',
+          image: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&w=800&q=80',
+          sides: ['Arroz Amarillo', 'Ají Mochero Picado']
+        },
+        {
+          id: 'fc2',
+          title: 'Ceviche de Mero Murique en Bronce',
+          category: 'Entradas & Ceviches',
+          price: 98.00,
+          badge: 'Plato Insignia',
+          desc: 'Mero Murique recién desembarcado, limón de Olmos, zarandaja cocida al punto y choclo criollo.',
+          image: 'https://images.unsplash.com/photo-1535399831218-d5bd36d1a6b3?auto=format&fit=crop&w=800&q=80',
+          spicyLevels: ['Sin Picante', 'Leve', 'Medio', 'Fuerte'],
+          sides: ['Zarandaja Extra', 'Camote']
+        },
+        {
+          id: 'fc3',
+          title: 'Chicharrón de Pesca del Día & Yucas',
+          category: 'Entradas & Ceviches',
+          price: 62.00,
+          badge: 'Más Vendido',
+          desc: 'Trozos crujientes al panko norteño acompañados de yucas doradas y salsa criolla a la lima.',
+          image: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=800&q=80'
+        },
+        {
+          id: 'fc4',
+          title: 'Seco de Cabrito con Frijoles Loches',
+          category: 'Especialidades Norteñas',
+          price: 98.00,
+          badge: 'Casa Matriz',
+          desc: 'Receta tradicional chiclayana con aderezo de loche, ají mirasol, frijol meloso y yuca al vapor.',
+          image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
+          sides: ['Frijoles Loches Extra', 'Arroz Blanco']
+        },
+        {
+          id: 'fc5',
+          title: 'Arroz con Pato Deshuesado & Jora',
+          category: 'Especialidades Norteñas',
+          price: 92.00,
+          badge: 'Emblema Norte',
+          desc: 'Pato tierno cocido lentamente en chicha de jora de tinaja mochica con aderezo perfumado al culantro.',
+          image: 'https://images.unsplash.com/photo-1625943553852-781c6dd46faa?auto=format&fit=crop&w=800&q=80'
+        },
+        {
+          id: 'fc6',
+          title: 'Sudado de Mero Murique a la Norteña',
+          category: 'Carnes & Parrilla',
+          price: 105.00,
+          badge: 'Pesca Marina',
+          desc: 'Filete grueso de mero en jugo concentrado de ají amarillo, chicha de jora y tomate concassé.',
+          image: 'https://images.unsplash.com/photo-1501595091296-3aa970afb3ff?auto=format&fit=crop&w=800&q=80'
+        },
+        {
+          id: 'fc7',
+          title: 'Chicha de Jora Ancestral (Jarra 1L)',
+          category: 'Bebidas & Postres',
+          price: 28.00,
+          badge: 'Ancestral',
+          desc: 'Elixir fermentado en tinaja de barro artesanal a base de maíz guiñapo lambayecano.',
+          image: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=800&q=80'
+        },
+        {
+          id: 'fc8',
+          title: 'King Kong de Manjar Blanco Selección',
+          category: 'Bebidas & Postres',
+          price: 38.00,
+          badge: 'Tradicional',
+          desc: 'Dulce tradicional mochica relleno de piña local, membrillo y manjar blanco artesanal.',
+          image: 'https://images.unsplash.com/photo-1579372786545-d24232daf58c?auto=format&fit=crop&w=800&q=80'
+        }
+      ]
+    };
+
+    const CATEGORIES = ['Todos', 'Entradas & Ceviches', 'Especialidades Norteñas', 'Carnes & Parrilla', 'Bebidas & Postres'];
+
+    // --- APPLICATION STATE ---
+    let currentVenue = 'lima';
+    let pendingVenueSwitch = null;
+    let selectedCategory = 'Todos';
+    let deliveryMode = 'delivery';
+    let selectedPayment = 'yape';
+    let cart = [];
+
+    // Hero Carousel State
+    let heroIndex = 0;
+    let heroTimer = null;
+
+    // Dish Modal State
+    let activeModalDish = null;
+    let modalQty = 1;
+    let modalSelectedSpicy = '';
+    let modalSelectedSide = '';
+
+    // Gift Card State (Strictly S/ 800 to S/ 5,000, Exclusive to Lima)
+    let gcState = {
+      amount: 800,
+      tier: 'Reserva Oro',
+      dedication: ''
+    };
+
+    // --- PNG LOGO UPLOAD HANDLER ---
+    function handleLogoFileChange(event) {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const dataUrl = e.target?.result;
+        if (dataUrl) {
+          document.getElementById('navbarLogoImg').src = dataUrl;
+          document.getElementById('footerLogoImg').src = dataUrl;
+          showToast('Logo PNG actualizado en cabecera y pie de página.');
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // --- HERO CAROUSEL LOGIC ---
+    function renderHeroCarousel() {
+      const wrapper = document.getElementById('heroSlidesWrapper');
+      const dots = document.getElementById('heroDots');
+
+      wrapper.innerHTML = STAR_SLIDES.map((slide, idx) => `
+        <div class="hero-slide absolute inset-0 transition-opacity duration-1000 ${idx === heroIndex ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'}">
+          <img src="${slide.image}" alt="${slide.title}" class="w-full h-full object-cover brightness-[0.26] scale-105" />
+          <div class="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/70 to-transparent"></div>
+          <div class="absolute inset-0 bg-gradient-to-r from-obsidian/90 via-transparent to-obsidian/90"></div>
+
+          <div class="relative z-10 max-w-5xl mx-auto px-4 h-full flex flex-col justify-center items-center text-center">
+            <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-charcoal/90 border border-gold/40 text-gold text-[10px] font-extrabold uppercase tracking-[0.28em] mb-4 backdrop-blur-md">
+              ✦ ${slide.tag}
+            </span>
+            <h1 class="font-luxury text-3xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-2">
+              ${slide.title}
+            </h1>
+            <p class="font-luxury italic text-gold text-sm sm:text-lg tracking-widest mb-4">
+              ${slide.subtitle}
+            </p>
+            <p class="text-gray-300 text-xs sm:text-sm max-w-2xl mb-6 leading-relaxed">
+              ${slide.desc}
+            </p>
+            <div class="flex flex-col sm:flex-row items-center gap-4">
+              <span class="font-luxury text-3xl font-extrabold text-aji">S/ ${slide.price.toFixed(2)}</span>
+              <button
+                type="button"
+                onclick="orderHeroDish(${idx})"
+                class="bg-aji hover:bg-[#c84d0b] text-white px-7 py-3.5 rounded-full text-xs font-extrabold uppercase tracking-widest shadow-2xl shadow-aji/40 transition transform hover:scale-105"
+              >
+                Pedir Plato Estelar
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      dots.innerHTML = STAR_SLIDES.map((_, idx) => `
+        <button
+          type="button"
+          onclick="goToHeroSlide(${idx})"
+          aria-label="Slide ${idx + 1}"
+          class="h-1.5 rounded-full transition-all duration-300 ${idx === heroIndex ? 'w-8 bg-aji' : 'w-2 bg-gray-600'}"
+        ></button>
+      `).join('');
+    }
+
+    function goToHeroSlide(idx) {
+      heroIndex = idx;
+      renderHeroCarousel();
+      resetHeroTimer();
+    }
+
+    function nextHeroSlide() {
+      heroIndex = (heroIndex + 1) % STAR_SLIDES.length;
+      renderHeroCarousel();
+      resetHeroTimer();
+    }
+
+    function prevHeroSlide() {
+      heroIndex = (heroIndex - 1 + STAR_SLIDES.length) % STAR_SLIDES.length;
+      renderHeroCarousel();
+      resetHeroTimer();
+    }
+
+    function resetHeroTimer() {
+      if (heroTimer) clearInterval(heroTimer);
+      heroTimer = setInterval(() => {
+        heroIndex = (heroIndex + 1) % STAR_SLIDES.length;
+        renderHeroCarousel();
+      }, 6500);
+    }
+
+    function orderHeroDish(slideIdx) {
+      const slide = STAR_SLIDES[slideIdx];
+      if (!slide) return;
+      if (slide.venue !== currentVenue) {
+        if (cart.length > 0) {
+          requestVenueChange(slide.venue);
+          return;
+        }
+        applyVenueChange(slide.venue);
+      }
+      openDishModal(slide.dishId);
+    }
+
+    // --- VENUE SWITCHING ---
+    function requestVenueChange(targetVenue) {
+      if (targetVenue === currentVenue) return;
+      if (cart.length > 0) {
+        pendingVenueSwitch = targetVenue;
+        document.getElementById('targetVenueLabel').textContent = VENUES[targetVenue].name;
+        const modal = document.getElementById('venueWarningModal');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      } else {
+        applyVenueChange(targetVenue);
+      }
+    }
+
+    function cancelVenueChange() {
+      pendingVenueSwitch = null;
+      const modal = document.getElementById('venueWarningModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function confirmVenueChange() {
+      if (pendingVenueSwitch) {
+        cart = [];
+        updateCartUI();
+        applyVenueChange(pendingVenueSwitch);
+        showToast(`Carrito reiniciado. Cambiado a ${VENUES[pendingVenueSwitch].name}.`);
+      }
+      cancelVenueChange();
+    }
+
+    function applyVenueChange(venueId) {
+      currentVenue = venueId;
+      selectedCategory = 'Todos';
+      const venue = VENUES[venueId];
+
+      const btnLima = document.getElementById('btnVenueLima');
+      const btnChiclayo = document.getElementById('btnVenueChiclayo');
+
+      if (venueId === 'lima') {
+        btnLima.className = 'px-3 sm:px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all bg-crimson text-white shadow-md shadow-crimson/40';
+        btnChiclayo.className = 'px-3 sm:px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all text-gray-400 hover:text-white';
+      } else {
+        btnChiclayo.className = 'px-3 sm:px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all bg-crimson text-white shadow-md shadow-crimson/40';
+        btnLima.className = 'px-3 sm:px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all text-gray-400 hover:text-white';
+      }
+
+      document.getElementById('activeVenueHeading').textContent = venue.name;
+      document.getElementById('activeVenueSubheading').textContent = venue.subtitle;
+      document.getElementById('drawerVenueSubtitle').textContent = venue.fullTitle;
+      document.getElementById('yapePhoneDisplay').textContent = venue.phone;
+
+      renderCategories();
+      renderMenuGrid();
+    }
+
+    // --- MENU RENDERING ---
+    function renderCategories() {
+      const bar = document.getElementById('categoryFilterBar');
+      bar.innerHTML = CATEGORIES.map(cat => `
+        <button
+          type="button"
+          onclick="selectCategory('${cat}')"
+          class="px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider whitespace-nowrap transition ${
+            selectedCategory === cat
+              ? 'bg-aji text-white shadow-lg shadow-aji/30'
+              : 'bg-charcoal text-gray-400 hover:text-white border border-white/10'
+          }"
+        >
+          ${cat}
+        </button>
+      `).join('');
+    }
+
+    function selectCategory(cat) {
+      selectedCategory = cat;
+      renderCategories();
+      renderMenuGrid();
+    }
+
+    function renderMenuGrid() {
+      const grid = document.getElementById('menuCardsGrid');
+      const query = (document.getElementById('menuSearchInput')?.value || '').toLowerCase().trim();
+      const items = (MENU_ITEMS[currentVenue] || []).filter(item => {
+        const matchCat = selectedCategory === 'Todos' || item.category === selectedCategory;
+        const matchQuery = !query || item.title.toLowerCase().includes(query) || item.desc.toLowerCase().includes(query);
+        return matchCat && matchQuery;
+      });
+
+      if (items.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full text-center py-12 text-gray-400 text-xs">
+            No se encontraron platillos con ese criterio de búsqueda.
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = items.map(item => `
+        <article
+          onclick="openDishModal('${item.id}')"
+          class="group bg-charcoal border border-white/10 hover:border-gold/60 rounded-2xl overflow-hidden flex flex-col justify-between cursor-pointer transition-all duration-300 shadow-xl"
+        >
+          <div>
+            <div class="relative h-52 overflow-hidden">
+              <img
+                src="${item.image}"
+                alt="${item.title}"
+                onerror="this.onerror=null;this.src='https://placehold.co/600x400/0F0F13/C5A059?text=Plato+Gourmet';"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-charcoal via-transparent to-transparent"></div>
+              <span class="absolute top-3 left-3 bg-obsidian/90 backdrop-blur-md border border-gold/50 text-gold text-[9px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-full">
+                ${item.badge}
+              </span>
+            </div>
+
+            <div class="p-5">
+              <h3 class="font-luxury text-lg font-bold text-white group-hover:text-gold transition-colors leading-snug">
+                ${item.title}
+              </h3>
+              <p class="text-gray-400 text-xs mt-2 leading-relaxed line-clamp-2">
+                ${item.desc}
+              </p>
+            </div>
+          </div>
+
+          <div class="px-5 pb-5 pt-3 border-t border-white/10 flex items-center justify-between">
+            <div>
+              <span class="text-[9px] uppercase tracking-widest text-gray-500 block font-bold">Precio</span>
+              <span class="font-luxury text-xl font-extrabold text-aji">S/ ${item.price.toFixed(2)}</span>
+            </div>
+
+            <button
+              type="button"
+              onclick="quickAddDish('${item.id}', event)"
+              class="bg-aji/15 hover:bg-aji text-aji hover:text-white border border-aji/40 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition flex items-center gap-1.5"
+            >
+              <span>+ Agregar</span>
+            </button>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    // --- DISH MODAL ---
+    function openDishModal(dishId) {
+      const dish = (MENU_ITEMS[currentVenue] || []).find(d => d.id === dishId);
+      if (!dish) return;
+
+      activeModalDish = dish;
+      modalQty = 1;
+      modalSelectedSpicy = dish.spicyLevels?.[0] || '';
+      modalSelectedSide = dish.sides?.[0] || '';
+
+      document.getElementById('modalDishImg').src = dish.image;
+      document.getElementById('modalDishBadge').textContent = dish.badge;
+      document.getElementById('modalDishTitle').textContent = dish.title;
+      document.getElementById('modalDishDesc').textContent = dish.desc;
+      document.getElementById('modalDishPrice').textContent = `S/ ${dish.price.toFixed(2)}`;
+      document.getElementById('modalDishNotes').value = '';
+      document.getElementById('modalDishQty').textContent = '1';
+      document.getElementById('modalBtnSubtotal').textContent = `S/ ${dish.price.toFixed(2)}`;
+
+      renderModalOptions();
+
+      const modal = document.getElementById('dishModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function renderModalOptions() {
+      const container = document.getElementById('modalOptionsContainer');
+      if (!activeModalDish) return;
+
+      let html = '';
+      if (activeModalDish.spicyLevels?.length) {
+        html += `
+          <div>
+            <span class="text-[11px] font-bold uppercase tracking-wider text-gray-300 block mb-2">Nivel de Ají Limo</span>
+            <div class="grid grid-cols-2 gap-2">
+              ${activeModalDish.spicyLevels.map(lvl => `
+                <button
+                  type="button"
+                  onclick="selectModalSpicy('${lvl}')"
+                  class="p-2 rounded-xl text-xs text-left border transition ${
+                    modalSelectedSpicy === lvl ? 'border-aji bg-aji/15 text-aji font-bold' : 'border-white/10 text-gray-400'
+                  }"
+                >${lvl}</button>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+
+      if (activeModalDish.sides?.length) {
+        html += `
+          <div>
+            <span class="text-[11px] font-bold uppercase tracking-wider text-gray-300 block mb-2">Guarnición de Cortesía</span>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              ${activeModalDish.sides.map(side => `
+                <button
+                  type="button"
+                  onclick="selectModalSide('${side}')"
+                  class="p-2 rounded-xl text-xs text-left border transition ${
+                    modalSelectedSide === side ? 'border-emeraldMoche bg-emeraldMoche/15 text-emerald-400 font-bold' : 'border-white/10 text-gray-400'
+                  }"
+                >${side}</button>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+
+      container.innerHTML = html;
+    }
+
+    function selectModalSpicy(lvl) {
+      modalSelectedSpicy = lvl;
+      renderModalOptions();
+    }
+
+    function selectModalSide(side) {
+      modalSelectedSide = side;
+      renderModalOptions();
+    }
+
+    function changeModalQty(delta) {
+      if (!activeModalDish) return;
+      modalQty = Math.max(1, modalQty + delta);
+      document.getElementById('modalDishQty').textContent = String(modalQty);
+      document.getElementById('modalBtnSubtotal').textContent = `S/ ${(activeModalDish.price * modalQty).toFixed(2)}`;
+    }
+
+    function closeDishModal() {
+      activeModalDish = null;
+      const modal = document.getElementById('dishModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function confirmAddDishFromModal() {
+      if (!activeModalDish) return;
+      const notes = document.getElementById('modalDishNotes').value.trim();
+      const details = [modalSelectedSpicy, modalSelectedSide, notes].filter(Boolean).join(' • ');
+      const cartKey = `${activeModalDish.id}::${details}`;
+
+      const existing = cart.find(item => item.cartKey === cartKey);
+      if (existing) {
+        existing.quantity += modalQty;
+      } else {
+        cart.push({
+          cartKey,
+          id: activeModalDish.id,
+          title: activeModalDish.title,
+          price: activeModalDish.price,
+          image: activeModalDish.image,
+          quantity: modalQty,
+          details: details || VENUES[currentVenue].name,
+          isGiftCard: false
+        });
+      }
+
+      closeDishModal();
+      updateCartUI();
+      showToast(`Agregado: ${activeModalDish.title}`);
+    }
+
+    function quickAddDish(dishId, event) {
+      event.stopPropagation();
+      const dish = (MENU_ITEMS[currentVenue] || []).find(d => d.id === dishId);
+      if (!dish) return;
+
+      const cartKey = `${dish.id}::standard`;
+      const existing = cart.find(item => item.cartKey === cartKey);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        cart.push({
+          cartKey,
+          id: dish.id,
+          title: dish.title,
+          price: dish.price,
+          image: dish.image,
+          quantity: 1,
+          details: VENUES[currentVenue].name,
+          isGiftCard: false
+        });
+      }
+
+      updateCartUI();
+      showToast(`Agregado: ${dish.title}`);
+    }
+
+    // --- GIFT CARDS LIMA (STRICTLY S/ 800 TO S/ 5,000) ---
+    function getGiftCardTierName(amount) {
+      if (amount >= 5000) return 'Embajador Lima';
+      if (amount >= 3000) return 'Cava Privada';
+      if (amount >= 1500) return 'Gran Mesa';
+      return 'Reserva Oro';
+    }
+
+    function selectGiftCardPreset(amount) {
+      gcState.amount = amount;
+      document.getElementById('gcAmountInput').value = amount;
+      document.getElementById('gcAmountSlider').value = amount;
+      syncGiftCardDisplay();
+    }
+
+    function handleGiftCardSliderInput(val) {
+      const parsed = parseInt(val, 10) || 800;
+      gcState.amount = Math.min(5000, Math.max(800, parsed));
+      document.getElementById('gcAmountInput').value = gcState.amount;
+      syncGiftCardDisplay();
+    }
+
+    function handleGiftCardNumberInput(val) {
+      const parsed = parseInt(val, 10);
+      if (!isNaN(parsed)) {
+        const clamped = Math.min(5000, Math.max(800, parsed));
+        gcState.amount = clamped;
+        document.getElementById('gcAmountSlider').value = clamped;
+        syncGiftCardDisplay();
+      }
+    }
+
+    function enforceGiftCardBounds() {
+      const input = document.getElementById('gcAmountInput');
+      let parsed = parseInt(input.value, 10);
+      if (isNaN(parsed) || parsed < 800) parsed = 800;
+      if (parsed > 5000) parsed = 5000;
+      gcState.amount = parsed;
+      input.value = parsed;
+      document.getElementById('gcAmountSlider').value = parsed;
+      syncGiftCardDisplay();
+    }
+
+    function updateGiftCardDedication(text) {
+      gcState.dedication = text.trim();
+      const preview = document.getElementById('gcPreviewMessage');
+      preview.textContent = gcState.dedication
+        ? `“${gcState.dedication}”`
+        : '“Una velada inolvidable de alta cocina norteña en Miraflores.”';
+    }
+
+    function syncGiftCardDisplay() {
+      const amt = gcState.amount;
+      const tier = getGiftCardTierName(amt);
+      gcState.tier = tier;
+
+      const formatted = amt.toLocaleString('es-PE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      document.getElementById('gcPreviewAmount').textContent = `S/ ${formatted}`;
+      document.getElementById('gcPreviewTier').textContent = tier;
+      document.getElementById('gcAddButtonLabel').textContent = `Agregar Gift Card Lima • S/ ${formatted}`;
+
+      document.querySelectorAll('.gc-preset-btn').forEach(btn => {
+        const presetVal = parseInt(btn.dataset.preset, 10);
+        if (presetVal === amt) {
+          btn.className = 'gc-preset-btn p-3 rounded-2xl border border-gold bg-gold/15 text-left transition';
+        } else {
+          btn.className = 'gc-preset-btn p-3 rounded-2xl border border-white/10 bg-charcoal hover:border-gold/50 text-left transition';
+        }
+      });
+    }
+
+    function addGiftCardToCart() {
+      enforceGiftCardBounds();
+
+      // Gift Cards are valid ONLY in Lima
+      if (currentVenue !== 'lima') {
+        if (cart.length > 0) {
+          showToast('Las Gift Cards son exclusivas de Sede Lima. Cambia a Lima para agregarla.');
+          requestVenueChange('lima');
+          return;
+        } else {
+          applyVenueChange('lima');
+          showToast('Sede cambiada automáticamente a Lima (exclusivo para Gift Cards).');
+        }
+      }
+
+      const recipient = document.getElementById('gcRecipientName').value.trim() || 'Invitado VIP';
+      const email = document.getElementById('gcRecipientEmail').value.trim();
+      const msg = gcState.dedication || 'Experiencia Gastronómica Lima';
+      const details = `Para: ${recipient}${email ? ` (${email})` : ''} • ${msg}`;
+      const cartKey = `gc-lima-${gcState.amount}-${recipient}-${msg}`;
+
+      const existing = cart.find(item => item.cartKey === cartKey);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        cart.push({
+          cartKey,
+          id: 'gift-card-lima',
+          title: `Gift Card Fiesta Lima (${gcState.tier})`,
+          price: gcState.amount,
+          image: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=600&q=80',
+          quantity: 1,
+          details,
+          isGiftCard: true
+        });
+      }
+
+      updateCartUI();
+      toggleCartDrawer(true);
+      showToast(`Gift Card Lima de S/ ${gcState.amount.toLocaleString('es-PE')} agregada al carrito.`);
+    }
+
+    // --- CART & DRAWER UI ---
+    function updateCartItemQty(index, delta) {
+      if (!cart[index]) return;
+      cart[index].quantity += delta;
+      if (cart[index].quantity <= 0) {
+        cart.splice(index, 1);
+      }
+      updateCartUI();
+    }
+
+    function removeCartItem(index) {
+      cart.splice(index, 1);
+      updateCartUI();
+    }
+
+    function setDeliveryMode(mode) {
+      deliveryMode = mode;
+      const btnDel = document.getElementById('btnModeDelivery');
+      const btnPick = document.getElementById('btnModePickup');
+      const addrInput = document.getElementById('orderCustomerAddress');
+
+      if (mode === 'delivery') {
+        btnDel.className = 'py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-aji text-white shadow transition';
+        btnPick.className = 'py-2 rounded-full text-xs font-bold uppercase tracking-wider text-gray-400 hover:text-white transition';
+        addrInput.classList.remove('hidden');
+      } else {
+        btnPick.className = 'py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-aji text-white shadow transition';
+        btnDel.className = 'py-2 rounded-full text-xs font-bold uppercase tracking-wider text-gray-400 hover:text-white transition';
+        addrInput.classList.add('hidden');
+      }
+      updateCartUI();
+    }
+
+    function selectPaymentMethod(method) {
+      selectedPayment = method;
+      document.querySelectorAll('.pay-method-btn').forEach(btn => {
+        if (btn.dataset.pay === method) {
+          btn.className = 'pay-method-btn py-2 px-2 rounded-xl border border-aji bg-aji/15 text-white text-[11px] font-bold text-center';
+        } else {
+          btn.className = 'pay-method-btn py-2 px-2 rounded-xl border border-white/10 bg-charcoal text-gray-400 text-[11px] font-bold text-center';
+        }
+      });
+      const yapeBox = document.getElementById('yapeQrBox');
+      if (method === 'yape') {
+        yapeBox.classList.remove('hidden');
+      } else {
+        yapeBox.classList.add('hidden');
+      }
+    }
+
+    function updateCartUI() {
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      const onlyGiftCards = cart.length > 0 && cart.every(i => i.isGiftCard);
+      const shipping = (cart.length === 0 || deliveryMode === 'pickup' || onlyGiftCards) ? 0 : 12.00;
+      const total = subtotal + shipping;
+
+      // Update Header Badge
+      document.getElementById('headerCartCount').textContent = String(totalItems);
+
+      // Update Floating Bottom Bar
+      const floatingBar = document.getElementById('floatingCartBar');
+      if (totalItems > 0) {
+        floatingBar.classList.remove('hidden');
+        const lastItem = cart[cart.length - 1];
+        document.getElementById('floatingLastImg').src = lastItem.image;
+        document.getElementById('floatingCartBadge').textContent = String(totalItems);
+        document.getElementById('floatingVenueTag').textContent = VENUES[currentVenue].name;
+        document.getElementById('floatingCartTotal').textContent = `S/ ${total.toLocaleString('es-PE', { minimumFractionDigits: 2 })}`;
+      } else {
+        floatingBar.classList.add('hidden');
+      }
+
+      // Render Side Cart Drawer List with Dish Thumbnails
+      const listEl = document.getElementById('cartItemsList');
+      const formEl = document.getElementById('drawerCheckoutForm');
+      const footerEl = document.getElementById('drawerFooter');
+
+      if (cart.length === 0) {
+        listEl.innerHTML = `
+          <div class="text-center py-14 px-4">
+            <div class="w-14 h-14 rounded-full bg-charcoal border border-white/10 mx-auto flex items-center justify-center text-gray-500 mb-3">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+            </div>
+            <p class="font-luxury text-base font-bold text-white">Tu carrito está vacío</p>
+            <p class="text-xs text-gray-400 mt-1">Selecciona platillos de nuestra carta o una Gift Card exclusiva de Lima.</p>
+          </div>
+        `;
+        formEl.classList.add('hidden');
+        footerEl.classList.add('hidden');
+        return;
+      }
+
+      formEl.classList.remove('hidden');
+      footerEl.classList.remove('hidden');
+
+      listEl.innerHTML = cart.map((item, idx) => `
+        <div class="flex items-center gap-3 bg-charcoal p-3 rounded-2xl border ${item.isGiftCard ? 'border-gold/40' : 'border-white/10'}">
+          <img
+            src="${item.image}"
+            alt="${item.title}"
+            onerror="this.onerror=null;this.src='https://placehold.co/120x120/060608/C5A059?text=Plato';"
+            class="w-16 h-16 rounded-xl object-cover shrink-0 border border-white/10"
+          />
+          <div class="flex-1 min-w-0">
+            <div class="flex items-start justify-between gap-2">
+              <h4 class="text-xs font-bold text-white leading-snug line-clamp-2">${item.title}</h4>
+              <button type="button" onclick="removeCartItem(${idx})" aria-label="Eliminar" class="text-gray-500 hover:text-crimson text-xs shrink-0">✕</button>
+            </div>
+            <p class="text-[10px] text-gray-400 truncate mt-0.5">${item.details}</p>
+            <div class="flex items-center justify-between mt-2">
+              <span class="font-luxury text-sm font-extrabold text-aji">S/ ${(item.price * item.quantity).toLocaleString('es-PE', { minimumFractionDigits: 2 })}</span>
+              <div class="flex items-center bg-obsidian border border-white/10 rounded-lg">
+                <button type="button" onclick="updateCartItemQty(${idx}, -1)" class="px-2 py-0.5 text-gray-300 hover:text-white text-xs font-bold">−</button>
+                <span class="px-2 text-xs font-bold text-white">${item.quantity}</span>
+                <button type="button" onclick="updateCartItemQty(${idx}, 1)" class="px-2 py-0.5 text-gold text-xs font-bold">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      document.getElementById('summarySubtotal').textContent = `S/ ${subtotal.toLocaleString('es-PE', { minimumFractionDigits: 2 })}`;
+      document.getElementById('summaryShipping').textContent = shipping === 0 ? 'S/ 0.00' : `S/ ${shipping.toFixed(2)}`;
+      document.getElementById('summaryTotal').textContent = `S/ ${total.toLocaleString('es-PE', { minimumFractionDigits: 2 })}`;
+    }
+
+    function toggleCartDrawer(open) {
+      const drawer = document.getElementById('cartDrawer');
+      const backdrop = document.getElementById('cartDrawerBackdrop');
+      if (open) {
+        backdrop.classList.remove('hidden');
+        drawer.classList.remove('translate-x-full');
+      } else {
+        backdrop.classList.add('hidden');
+        drawer.classList.add('translate-x-full');
+      }
+    }
+
+    function sendOrderViaWhatsApp() {
+      const name = document.getElementById('orderCustomerName').value.trim();
+      const phone = document.getElementById('orderCustomerPhone').value.trim();
+      const address = document.getElementById('orderCustomerAddress').value.trim();
+
+      if (!name || !phone) {
+        showToast('Por favor ingresa tu nombre y teléfono para confirmar.');
+        return;
+      }
+      if (deliveryMode === 'delivery' && !address) {
+        showToast('Por favor ingresa tu dirección de entrega.');
+        return;
+      }
+
+      const venue = VENUES[currentVenue];
+      const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      const onlyGiftCards = cart.every(i => i.isGiftCard);
+      const shipping = (deliveryMode === 'pickup' || onlyGiftCards) ? 0 : 12.00;
+      const total = subtotal + shipping;
+
+      const lines = [
+        `*NUEVO PEDIDO GOURMET - ${venue.fullTitle.toUpperCase()}*`,
+        `Cliente: ${name}`,
+        `Teléfono: ${phone}`,
+        `Modalidad: ${deliveryMode === 'delivery' ? 'Delivery Expreso' : 'Recojo en Salón'}`,
+      ];
+      if (deliveryMode === 'delivery') {
+        lines.push(`Dirección: ${address}`);
+      }
+      lines.push(`Método de Pago: ${selectedPayment.toUpperCase()}`);
+      lines.push(`\n*DETALLE DEL PEDIDO:*`);
+      cart.forEach(item => {
+        lines.push(`• ${item.quantity}x ${item.title} — S/ ${(item.price * item.quantity).toFixed(2)}`);
+        if (item.details) {
+          lines.push(`  _${item.details}_`);
+        }
+      });
+      lines.push(`\nSubtotal: S/ ${subtotal.toFixed(2)}`);
+      lines.push(`Envío: S/ ${shipping.toFixed(2)}`);
+      lines.push(`*TOTAL GENERAL: S/ ${total.toFixed(2)}*`);
+
+      const waUrl = `https://wa.me/${venue.whatsapp}?text=${encodeURIComponent(lines.join('\n'))}`;
+      window.open(waUrl, '_blank');
+    }
+
+    // --- NAVIGATION & HELPERS ---
+    function toggleMobileNav() {
+      document.getElementById('mobileNavPanel').classList.toggle('hidden');
+    }
+
+    function submitCareersForm(event) {
+      event.preventDefault();
+      event.target.reset();
+      showToast('¡Postulación enviada! Nuestro equipo se pondrá en contacto.');
+    }
+
+    function showToast(msg) {
+      const container = document.getElementById('toastContainer');
+      const el = document.createElement('div');
+      el.className = 'bg-charcoal border border-gold/60 text-white px-4 py-3 rounded-2xl shadow-2xl text-xs font-semibold flex items-center gap-2.5 transition-opacity duration-300';
+      el.innerHTML = `<span class="w-2 h-2 rounded-full bg-aji shrink-0"></span><span>${msg}</span>`;
+      container.appendChild(el);
+      setTimeout(() => {
+        el.classList.add('opacity-0');
+        setTimeout(() => el.remove(), 300);
+      }, 3000);
+    }
+
+    // --- INITIALIZE ---
+    window.addEventListener('DOMContentLoaded', () => {
+      renderHeroCarousel();
+      resetHeroTimer();
+      renderCategories();
+      renderMenuGrid();
+      syncGiftCardDisplay();
+      updateCartUI();
+    });
+  </script>
+</body>
+</html>
