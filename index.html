@@ -243,6 +243,13 @@
     .gcx-qrbox { aspect-ratio: 1 / 1; height: 100%; padding: 1.6cqw; background: #f4f2ed; border-radius: 3cqw; }
     .gcx-qr { width: 100%; height: 100%; }
     .gc-amount-btn { text-align: center; }
+    /* ===== GIFT CARD: ESTADO SIN ACTIVAR ===== */
+    .gcx-stamp { position: absolute; left: 50%; top: 52%; transform: translate(-50%,-50%) rotate(-12deg); z-index: 5; pointer-events: none; text-align: center; white-space: nowrap;
+      border: .7cqw solid rgba(235,90,90,.9); border-radius: 2cqw; padding: 1.6cqw 4cqw; background: rgba(15,6,6,.55); color: #ff8a8a; text-shadow: 0 1px 6px rgba(0,0,0,.6); }
+    .gcx-stamp b { display: block; font-size: 6cqw; letter-spacing: .22em; font-weight: 800; }
+    .gcx-stamp span { display: block; font-size: 2.4cqw; letter-spacing: .18em; text-transform: uppercase; margin-top: .6cqw; }
+    .gcx-bar, .gcx-qr { opacity: .3; filter: grayscale(1); }
+    .gcx-act { font-size: max(2.4cqw, 8px); color: #d9a0a0; letter-spacing: .08em; margin-top: .8cqw; }
     /* ===== RESPONSIVE (≤ 400px y hasta 320px) ===== */
     html { -webkit-text-size-adjust: 100%; }
     h1, h2, h3, h4, p, a, span { overflow-wrap: break-word; }
@@ -629,6 +636,7 @@
                 <!-- ANVERSO -->
                 <div class="gcx-face gcx-front">
                   <img data-fiesta-duck src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="" onerror="this.remove()" class="gcx-duck" />
+                  <div class="gcx-stamp" aria-label="Gift Card sin activar"><b>NO VÁLIDA</b><span>Pendiente de activación</span></div>
                   <div class="gcx-top">
                     <div class="gcx-chip"></div>
                     <svg class="w-5 h-5 text-gold/70" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 12a7 7 0 017-7M5 12a7 7 0 007 7M9 12a3 3 0 013-3M9 12a3 3 0 003 3"/></svg>
@@ -663,6 +671,7 @@
                     <div class="gcx-box">
                       <p class="gcx-lbl">Código de serie</p>
                       <p id="gcSerialText" class="gcx-serial">----</p>
+                      <p class="gcx-act">🔒 Código de activación: ACT-····-···· · se envía al confirmar tu pago</p>
                     </div>
                     <div class="gcx-row">
                       <div class="gcx-box gcx-barbox">
@@ -1849,12 +1858,14 @@
     }
 
     function renderGiftBack() {
-      document.getElementById('gcSerialText').textContent = gcCurrentSerial;
-      document.getElementById('gcBarcodeText').textContent = gcCurrentSerial;
-      const bc = gcBarcodeDataURL(gcCurrentSerial);
+      // La vista previa SIEMPRE muestra un código no válido: la serie real se emite al confirmar el pedido
+      const INACTIVE = 'XXXX-XXXX-XXXX-XXXX';
+      document.getElementById('gcSerialText').textContent = INACTIVE;
+      document.getElementById('gcBarcodeText').textContent = 'SIN ACTIVAR';
+      const bc = gcBarcodeDataURL(INACTIVE);
       const img = document.getElementById('gcBarcodeImg');
       if (bc) img.src = bc;
-      document.getElementById('gcQr').innerHTML = gcQrSvg(gcQrText(gcCurrentSerial));
+      document.getElementById('gcQr').innerHTML = gcQrSvg('FIESTA-GIFTCARD:INACTIVA');
     }
 
     function updateGiftPreview() {
@@ -1994,6 +2005,11 @@
         doc.text(name, 16, H - 24, { charSpace: 1 });
         doc.setFontSize(10); doc.text(valid, 112, H - 24);
         doc.setFontSize(19); doc.text(gcMoney(it.unitPrice), W - 16, H - 22, { align: 'right' });
+        // Sello: la tarjeta no es válida hasta activarla
+        doc.setDrawColor(235, 90, 90); doc.setLineWidth(0.5); doc.roundedRect(72, 14, 62, 13, 2, 2, 'S');
+        doc.setFont('helvetica', 'bold'); doc.setFontSize(10); doc.setTextColor(255, 138, 138);
+        doc.text('NO VÁLIDA', 103, 20, { align: 'center', charSpace: 1.5 });
+        doc.setFontSize(5.5); doc.text('PENDIENTE DE ACTIVACIÓN', 103, 24.5, { align: 'center', charSpace: 0.8 });
       };
 
       const drawBack = (it, serial) => {
@@ -2007,28 +2023,31 @@
         // Serie
         doc.setDrawColor(...GOLD); doc.setLineWidth(0.3); doc.roundedRect(14, 36, W - 28, 19, 3, 3, 'S');
         doc.setFont('helvetica', 'normal'); doc.setFontSize(6); doc.setTextColor(...GOLD);
-        doc.text('CÓDIGO DE SERIE', 19, 42, { charSpace: 1.8 });
+        doc.text('CÓDIGO DE SERIE  ·  NO VÁLIDO HASTA ACTIVAR', 19, 42, { charSpace: 1.2 });
         doc.setFont('helvetica', 'bold'); doc.setFontSize(14); doc.setTextColor(255, 255, 255);
         doc.text(serial, 19, 50.5, { charSpace: 1.2 });
         // Código de barras
         doc.setDrawColor(...GOLD); doc.roundedRect(14, 59, W - 28, 19, 3, 3, 'S');
-        const bc = gcBarcodeDataURL(serial);
-        if (bc) { doc.setFillColor(255, 255, 255); doc.roundedRect(18, 62, 80, 13, 1, 1, 'F'); doc.addImage(bc, 'PNG', 19.5, 63, 77, 11); }
+        // Código de barras bloqueado hasta la activación
+        doc.setFillColor(52, 48, 42); doc.roundedRect(18, 62, 80, 13, 1, 1, 'F');
+        doc.setFont('helvetica', 'bold'); doc.setFontSize(7.5); doc.setTextColor(160, 150, 130);
+        doc.text('CÓDIGO DE BARRAS INACTIVO', 58, 70, { align: 'center', charSpace: 1 });
         doc.setFont('helvetica', 'normal'); doc.setFontSize(6); doc.setTextColor(...GOLD);
         doc.text('CÓDIGO DE BARRAS', 104, 67, { charSpace: 1.8 });
         doc.setFontSize(8.5); doc.setTextColor(231, 225, 210); doc.text(serial, 104, 72.5, { charSpace: 0.6 });
         // QR vectorial
-        const mtx = gcQrMatrix(gcQrText(serial));
         const qx = 14, qy = 82, qs = 28;
-        doc.setFillColor(244, 242, 237); doc.roundedRect(qx, qy, qs, qs, 2.5, 2.5, 'F');
-        if (mtx) {
-          const cell = (qs - 5) / mtx.length; doc.setFillColor(17, 17, 17);
-          mtx.forEach((row, r) => row.forEach((on, c) => { if (on) doc.rect(qx + 2.5 + c * cell, qy + 2.5 + r * cell, cell + 0.02, cell + 0.02, 'F'); }));
-        }
+        doc.setFillColor(52, 48, 42); doc.roundedRect(qx, qy, qs, qs, 2.5, 2.5, 'F');
+        doc.setFont('helvetica', 'bold'); doc.setFontSize(7); doc.setTextColor(160, 150, 130);
+        doc.text('QR', qx + qs / 2, qy + qs / 2 - 1, { align: 'center' });
+        doc.setFontSize(5.5); doc.text('INACTIVO', qx + qs / 2, qy + qs / 2 + 3.5, { align: 'center', charSpace: 0.8 });
         doc.setFont('helvetica', 'normal'); doc.setFontSize(6); doc.setTextColor(...GOLD);
-        doc.text('CÓDIGO QR', 48, 92, { charSpace: 1.8 });
-        doc.setFontSize(9); doc.setTextColor(244, 242, 237); doc.text('Escanea para verificar tu Gift Card', 48, 98);
-        doc.setFontSize(7.5); doc.setTextColor(...GOLD); doc.text(`Obsequio de ${buyerName}`, 48, 104);
+        doc.text('CÓDIGO DE ACTIVACIÓN', 48, 89, { charSpace: 1.8 });
+        doc.setFont('courier', 'bold'); doc.setFontSize(12); doc.setTextColor(244, 242, 237); doc.text('ACT-____-____', 48, 96.5);
+        doc.setFont('helvetica', 'normal'); doc.setFontSize(6.2); doc.setTextColor(231, 225, 210);
+        doc.text('Te lo enviaremos por WhatsApp al confirmar tu pago.', 48, 101);
+        doc.text('Sin este código, la Gift Card NO es válida.', 48, 104.5);
+        doc.setFontSize(6.5); doc.setTextColor(...GOLD); doc.text(`Obsequio de ${buyerName}`, 48, 109);
         doc.setFontSize(5.5); doc.setTextColor(120, 112, 98);
         doc.text('Válida solo en Fiesta Restaurant Sede Lima, Av. Reducto 1278, Miraflores. No canjeable por efectivo.', 14, H - 7.5);
       };
@@ -2036,7 +2055,7 @@
       let first = true;
       items.forEach(it => {
         for (let q = 0; q < it.qty; q++) {
-          const serial = (q === 0 && it.serial) ? it.serial : gcNewSerial();
+          const serial = (it.serials && it.serials[q]) || ((q === 0 && it.serial) ? it.serial : gcNewSerial());
           if (!first) doc.addPage([W, H], 'landscape'); first = false;
           drawFront(it);
           doc.addPage([W, H], 'landscape');
@@ -2251,6 +2270,13 @@
         ? `Modalidad: Delivery\nDirección: ${customerAddress}`
         : `Modalidad: Recojo en ${venue.fullName} (${venue.address})`;
 
+      // Series de las Gift Cards (se fijan aquí para que el PDF y el mensaje coincidan)
+      const giftItems = cart.filter(i => i.isGiftCard);
+      giftItems.forEach(it => { it.serials = Array.from({ length: it.qty }, (_, i) => (i === 0 && it.serial) ? it.serial : gcNewSerial()); });
+      const giftLines = giftItems.length
+        ? ['', '*Gift Cards (SIN ACTIVAR hasta verificar el pago):*', ...giftItems.flatMap(it => it.serials.map(s => `• ${it.recipient} — ${gcMoney(it.unitPrice)} — Serie: ${s}`))]
+        : [];
+
       const message = [
         `*NUEVO PEDIDO — FIESTA RESTAURANT (${venue.fullName.toUpperCase()})*`,
         ``,
@@ -2263,6 +2289,7 @@
         `Subtotal: ${formatPEN(subtotal)}`,
         `Envío: ${deliveryFee === 0 ? 'S/ 0.00' : formatPEN(deliveryFee)}`,
         `*Total a Pagar: ${formatPEN(total)}*`,
+        ...giftLines,
         ``,
         `*Método de pago: Transferencia Bancaria (Adjunto constancia)*`
       ].join('\n');
@@ -2270,11 +2297,10 @@
       // Descarga del PDF de Gift Card al confirmar el pedido.
       // TODO(integración real): generar el PDF solo después de validar el pago en un backend
       // (verificación de la constancia / webhook del banco). Hoy se descarga al confirmar.
-      const giftItems = cart.filter(i => i.isGiftCard);
       if (giftItems.length) {
         try {
           generateGiftCardsPDF(giftItems, customerName);
-          showToast('Tu Gift Card en PDF se está descargando');
+          showToast('Tu Gift Card (sin activar) se está descargando');
         } catch (err) {
           console.error(err);
           showToast('No se pudo generar el PDF. Inténtalo de nuevo');
