@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fiesta — Panel de Gift Cards</title>
+<style>
+  :root{--gold:#C5A059;--bg:#0B0B0F;--card:#13131A;--line:rgba(197,160,89,.25)}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:#eee;font:15px system-ui,sans-serif;padding:16px;max-width:860px;margin-inline:auto}
+  h1{font-size:20px;color:var(--gold);margin:8px 0 16px} h2{font-size:15px;color:var(--gold);margin:0 0 10px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:14px}
+  input,button,textarea{font:inherit;border-radius:10px;border:1px solid var(--line);background:#0E0E13;color:#fff;padding:10px 12px}
+  button{background:var(--gold);color:#111;font-weight:700;border:0;cursor:pointer} button.sec{background:transparent;color:var(--gold);border:1px solid var(--line)}
+  .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center} .row>input{flex:1;min-width:140px}
+  .tag{font-size:11px;padding:2px 8px;border-radius:99px;border:1px solid var(--line);color:var(--gold)}
+  .mono{font-family:ui-monospace,Menlo,monospace} .muted{color:#999;font-size:13px}
+  textarea{width:100%;min-height:150px;margin-top:8px} .ok{color:#7ddc9a} .err{color:#ff8a8a}
+</style></head><body>
+<h1>🎁 Panel de Gift Cards — Fiesta</h1>
+
+<div class="card"><h2>Acceso</h2>
+  <div class="row"><input id="key" type="password" placeholder="Clave de administrador (ADMIN_KEY)" autocomplete="current-password">
+  <button onclick="saveKey()">Entrar</button></div><p id="authMsg" class="muted"></p></div>
+
+<div class="card"><h2>Pedidos pendientes de pago</h2>
+  <div class="row"><button class="sec" onclick="loadOrders()">↻ Actualizar</button><span class="muted">Verifica la constancia y confirma el pago para generar los códigos.</span></div>
+  <div id="orders"></div></div>
+
+<div class="card"><h2>Canjear Gift Card en el local</h2>
+  <div class="row"><input id="serial" class="mono" placeholder="Serie XXXX-XXXX-XXXX-XXXX"><button class="sec" onclick="lookup()">Consultar</button></div>
+  <div id="cardInfo" class="muted" style="margin:10px 0"></div>
+  <div class="row"><input id="amount" type="number" min="1" placeholder="Monto a canjear (S/)"><input id="note" placeholder="Nota (mesa, ticket…)"><button onclick="redeem()">Canjear</button></div>
+  <p id="redeemMsg"></p></div>
+
+<script>
+const API = location.origin; let KEY = sessionStorage.getItem('adminKey') || '';
+document.getElementById('key').value = KEY;
+const $ = id => document.getElementById(id);
+async function api(path, method = 'GET', body) {
+  const r = await fetch(API + path, { method, headers: { 'Content-Type': 'application/json', 'x-admin-key': KEY }, body: body ? JSON.stringify(body) : undefined });
+  const data = await r.json().catch(() => ({})); if (!r.ok) throw new Error(data.error || r.status); return data;
+}
+const fmt = ms => ms ? new Date(ms).toLocaleDateString('es-PE') : '—';
+function saveKey() { KEY = $('key').value; sessionStorage.setItem('adminKey', KEY); loadOrders(); }
+async function loadOrders() {
+  try {
+    const list = await api('/api/admin/orders?status=PENDING_PAYMENT'); $('authMsg').innerHTML = '<span class="ok">Conectado ✓</span>';
+    $('orders').innerHTML = list.length ? list.map(o => `<div class="card" style="margin:10px 0 0"><div class="row"><b>${o.id}</b><span class="tag">${o.venue}</span><span class="muted">${o.customer} · S/ ${o.total}</span></div>
+      <div class="muted mono" style="margin:6px 0">${o.cards.map(c => `${c.serial} — ${c.recipient} (S/ ${c.amount})`).join('<br>')}</div>
+      <div class="row"><button onclick="confirmPay('${o.id}')">✅ Confirmar pago</button><button class="sec" onclick="cancelOrder('${o.id}')">Cancelar</button></div><div id="res-${o.id}"></div></div>`).join('')
+      : '<p class="muted">No hay pedidos pendientes.</p>';
+  } catch (e) { $('authMsg').innerHTML = `<span class="err">${e.message}</span>`; }
+}
+async function confirmPay(id) {
+  if (!confirm('¿Ya verificaste la constancia de pago de ' + id + '?')) return;
+  try {
+    const r = await api(`/api/admin/orders/${id}/confirm-payment`, 'POST');
+    $('res-' + id).innerHTML = `<p class="ok">Pago confirmado. Copia este mensaje y envíalo al cliente (los códigos solo se muestran ahora):</p><textarea readonly>${r.whatsappText}</textarea>
+      <div class="row"><button onclick="navigator.clipboard.writeText(this.closest('div').previousElementSibling.value)">Copiar mensaje</button></div>`;
+  } catch (e) { alert(e.message); }
+}
+async function cancelOrder(id) { if (confirm('¿Cancelar ' + id + '?')) { await api(`/api/admin/orders/${id}/cancel`, 'POST'); loadOrders(); } }
+async function lookup() {
+  try { const c = await api('/api/admin/giftcards/' + encodeURIComponent($('serial').value.trim()));
+    $('cardInfo').innerHTML = `<b>${c.status}</b> · Para ${c.recipient} · Saldo <b>S/ ${c.balance}</b> de S/ ${c.amount} · Vence ${fmt(c.expiresAt)}<br>Canjes: ${c.redemptions.map(r => `S/ ${r.amount} (${fmt(r.created_at)})`).join(', ') || 'ninguno'}`;
+  } catch (e) { $('cardInfo').innerHTML = `<span class="err">${e.message}</span>`; }
+}
+async function redeem() {
+  try { const r = await api(`/api/admin/giftcards/${encodeURIComponent($('serial').value.trim())}/redeem`, 'POST', { amount: Number($('amount').value), note: $('note').value });
+    $('redeemMsg').innerHTML = `<span class="ok">Canjeado S/ ${r.redeemed}. Saldo restante: S/ ${r.balance}</span>`; lookup();
+  } catch (e) { $('redeemMsg').innerHTML = `<span class="err">${e.message}</span>`; }
+}
+if (KEY) loadOrders();
+</script></body></html>
