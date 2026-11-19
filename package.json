@@ -1,0 +1,12 @@
+{
+  "name": "fiesta-giftcard-api",
+  "version": "1.0.0",
+  "description": "API de Gift Cards de Fiesta Restaurant: pedido, confirmación de pago, activación y canje",
+  "main": "server.js",
+  "scripts": { "start": "node server.js", "test": "node test.js" },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.0"
+  },
+  "engines": { "node": ">=22.13" }
+}
