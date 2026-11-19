@@ -26,9 +26,9 @@
       theme: {
         extend: {
           colors: {
-            obsidian: '#060608',
-            'obsidian-elevated': '#0E0E13',
-            'obsidian-card': '#13131A',
+            obsidian: '#000000',
+            'obsidian-elevated': '#0A0A0C',
+            'obsidian-card': '#111114',
             gold: '#C5A059',
             'gold-light': '#DFC080',
             'gold-dark': '#9A7836',
@@ -51,7 +51,7 @@
 
   <style>
     :root {
-      --bg-obsidian: #060608;
+      --bg-obsidian: #000000;
       --gold: #C5A059;
       --aji: #E05A10;
       --moche: #217245;
@@ -59,7 +59,7 @@
     }
 
     html, body {
-      background-color: #060608;
+      background-color: #000000;
       color: #F4F2ED;
       font-family: 'Plus Jakarta Sans', sans-serif;
       overflow-x: hidden;
@@ -85,7 +85,7 @@
       height: 6px;
     }
     ::-webkit-scrollbar-track {
-      background: #060608;
+      background: #000000;
     }
     ::-webkit-scrollbar-thumb {
       background: #27241D;
@@ -120,7 +120,7 @@
 
     .btn-gold {
       background: linear-gradient(135deg, #D5B26E 0%, #C5A059 50%, #A37F3B 100%);
-      color: #060608;
+      color: #000000;
       font-weight: 700;
       transition: all 0.25s ease;
     }
@@ -171,7 +171,7 @@
     .gc-card {
       background:
         radial-gradient(circle at 85% 110%, rgba(197,160,89,.22), transparent 55%),
-        linear-gradient(135deg, #1b1b25 0%, #0B0B0F 55%, #19150D 100%);
+        linear-gradient(135deg, #1b1b25 0%, #040405 55%, #19150D 100%);
       border: 1px solid rgba(197,160,89,.55);
       box-shadow: 0 30px 70px -25px rgba(197,160,89,.45), inset 0 1px 0 rgba(255,255,255,.08);
       transform: perspective(900px) rotateX(2deg) rotateY(-3deg);
@@ -250,6 +250,59 @@
     .gcx-stamp span { display: block; font-size: 2.4cqw; letter-spacing: .18em; text-transform: uppercase; margin-top: .6cqw; }
     .gcx-bar, .gcx-qr { opacity: .3; filter: grayscale(1); }
     .gcx-act { font-size: max(2.4cqw, 8px); color: #d9a0a0; letter-spacing: .08em; margin-top: .8cqw; }
+    /* ===== PÁGINA NEGRA + ALTO CONTRASTE ===== */
+    html, body { background-color: #000; }
+    .text-stone-500 { color: #b5aea6 !important; }
+    .text-stone-400 { color: #cbc5bd !important; }
+    .text-stone-300 { color: #e4dfd8 !important; }
+    .text-stone-200, .text-stone-100 { color: #f4f2ed !important; }
+    .text-gold\/70, .text-gold\/80, .text-gold\/90 { color: #E3C27A !important; }
+    ::placeholder { color: #a39c93 !important; opacity: 1; }
+    input, textarea, select { border-color: rgba(197,160,89,.45) !important; }
+    p, li, label { text-rendering: optimizeLegibility; }
+
+    /* ===== GIFT CARD NEGRA 3D ===== */
+    .gcx-scene { --rx: 7deg; --ry: -11deg; --flip: 0deg; touch-action: pan-y; }
+    .gcx-scene.flipped { --flip: 180deg; }
+    .gcx-inner { transform: rotateX(var(--rx)) rotateY(calc(var(--ry) + var(--flip))); will-change: transform; }
+    .gcx-scene.tilting .gcx-inner { transition: transform .09s linear; }
+    .gcx-face {
+      background:
+        radial-gradient(130% 90% at 80% 0%, rgba(197,160,89,.16) 0%, transparent 55%),
+        linear-gradient(145deg, #232329 0%, #0b0b0d 34%, #000 66%, #17171b 100%);
+      border: 1px solid rgba(227,194,122,.65);
+      box-shadow:
+        1px 1px 0 #34343b, 2px 2px 0 #2a2a30, 3px 3px 0 #202026, 4px 4px 0 #17171b, 5px 5px 0 #0e0e11,
+        0 38px 55px -18px rgba(0,0,0,.95), 0 0 46px rgba(197,160,89,.22),
+        inset 0 1px 0 rgba(255,255,255,.18), inset 0 0 0 1px rgba(0,0,0,.6);
+    }
+    .gcx-back { box-shadow: -1px 1px 0 #34343b, -2px 2px 0 #2a2a30, -3px 3px 0 #202026, -4px 4px 0 #17171b, -5px 5px 0 #0e0e11, 0 38px 55px -18px rgba(0,0,0,.95), 0 0 46px rgba(197,160,89,.22), inset 0 1px 0 rgba(255,255,255,.18); }
+    .gcx-face::after {
+      content: ""; position: absolute; inset: 0; z-index: 4; pointer-events: none; border-radius: inherit;
+      background: radial-gradient(circle at var(--mx, 28%) var(--my, 18%), rgba(255,255,255,.17), transparent 46%);
+      mix-blend-mode: screen;
+    }
+    /* Oscurece la zona de textos para que se lean sobre el plato */
+    .gcx-front::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+      background: linear-gradient(to top, rgba(0,0,0,.92) 0%, rgba(0,0,0,.55) 38%, transparent 64%); }
+    .gcx-duck { opacity: .88; }
+    .gcx-top, .gcx-mid, .gcx-bottom { text-shadow: 0 1px 3px rgba(0,0,0,.95); }
+
+    /* Letras más grandes y con mínimo legible en tarjetas pequeñas */
+    .gcx-kicker { font-size: max(3cqw, 9px); color: #E3C27A; font-weight: 600; }
+    .gcx-title  { font-size: max(6.6cqw, 15px); color: #fff; }
+    .gcx-lbl    { font-size: max(2.8cqw, 8.5px); color: #E3C27A; font-weight: 600; letter-spacing: .22em; }
+    .gcx-name   { font-size: max(4.6cqw, 12px); }
+    .gcx-val    { font-size: max(3.8cqw, 10.5px); }
+    .gcx-amount { font-size: max(7.8cqw, 18px); }
+    .gcx-serial { font-size: max(5cqw, 12.5px); color: #fff; }
+    .gcx-small  { font-size: max(3cqw, 9px); color: #f4f2ed; }
+    .gcx-act    { font-size: max(2.8cqw, 8.5px); color: #ffb0b0; }
+    .gcx-box    { border-color: rgba(227,194,122,.6); background: rgba(255,255,255,.06); }
+    .gcx-stamp b { font-size: max(6cqw, 14px); }
+    .gcx-stamp span { font-size: max(2.4cqw, 7.5px); }
+    @media (prefers-reduced-motion: reduce) { .gcx-inner { transform: rotateX(0) rotateY(var(--flip)); } }
+
     /* ===== RESPONSIVE (≤ 400px y hasta 320px) ===== */
     html { -webkit-text-size-adjust: 100%; }
     h1, h2, h3, h4, p, a, span { overflow-wrap: break-word; }
@@ -262,11 +315,8 @@
       header button[aria-label="Abrir carrito de compras"] { padding: .5rem .65rem !important; gap: .35rem !important; }
       #mobileMenuBtn { padding: .5rem !important; }
       .hero-title { font-size: 1.85rem; }
-      .gcx-lbl { font-size: max(2.3cqw, 7.5px); }
-      .gcx-kicker { font-size: max(2.7cqw, 8px); }
-      .gcx-small { font-size: max(2.6cqw, 8.5px); }
-      .gcx-name { font-size: max(4.2cqw, 11px); letter-spacing: .1em; }
       .gcx-serial { letter-spacing: .06em; }
+      .gcx-name { letter-spacing: .1em; }
     }
     @media (max-width: 340px) {
       #navbarLogoImg { max-width: 58px !important; }
@@ -325,7 +375,7 @@
       <div class="flex items-center gap-2 sm:gap-3">
 
         <!-- Lima / Chiclayo Venue Switcher -->
-        <div class="flex items-center bg-[#0B0B0F] p-1 rounded-full border border-gold/25 shadow-inner" role="group" aria-label="Selector de Sede">
+        <div class="flex items-center bg-[#040405] p-1 rounded-full border border-gold/25 shadow-inner" role="group" aria-label="Selector de Sede">
           <button
             type="button"
             id="venueBtnLima"
@@ -349,7 +399,7 @@
           type="button"
           onclick="toggleCartDrawer(true)"
           aria-label="Abrir carrito de compras"
-          class="relative flex items-center gap-2 px-3 sm:px-4 py-2.5 rounded-full bg-[#13131A] hover:bg-[#1B1B24] border border-gold/35 text-stone-100 transition shadow-gold"
+          class="relative flex items-center gap-2 px-3 sm:px-4 py-2.5 rounded-full bg-[#111114] hover:bg-[#1B1B24] border border-gold/35 text-stone-100 transition shadow-gold"
         >
           <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z" />
@@ -369,7 +419,7 @@
           id="mobileMenuBtn"
           onclick="toggleMobileMenu()"
           aria-label="Menú principal"
-          class="lg:hidden p-2.5 rounded-full bg-[#13131A] border border-gold/25 text-gold hover:bg-gold/10 transition"
+          class="lg:hidden p-2.5 rounded-full bg-[#111114] border border-gold/25 text-gold hover:bg-gold/10 transition"
         >
           <svg id="hamburgerIcon" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
@@ -408,8 +458,8 @@
         alt="Plato Estelar Fiesta"
         class="w-full h-full object-cover object-center opacity-45 transition-all duration-700 scale-105"
       />
-      <div class="absolute inset-0 bg-gradient-to-r from-[#060608] via-[#060608]/85 to-[#060608]/35"></div>
-      <div class="absolute inset-0 bg-gradient-to-t from-[#060608] via-transparent to-[#060608]/60"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-[#000000] via-[#000000]/85 to-[#000000]/35"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-[#000000] via-transparent to-[#000000]/60"></div>
     </div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20 w-full">
@@ -431,7 +481,7 @@
           </p>
 
           <div class="flex flex-wrap items-center gap-4 pt-1">
-            <div class="px-4 py-2 rounded-2xl bg-[#13131A]/90 border border-gold/25">
+            <div class="px-4 py-2 rounded-2xl bg-[#111114]/90 border border-gold/25">
               <span class="text-[11px] uppercase tracking-widest text-stone-400 block">Precio Carta</span>
               <span id="heroPrice" class="font-serif text-2xl font-bold text-gold">S/ 98.00</span>
             </div>
@@ -462,7 +512,7 @@
               type="button"
               onclick="prevHeroSlide()"
               aria-label="Plato anterior"
-              class="w-11 h-11 rounded-full bg-[#13131A]/90 border border-gold/25 flex items-center justify-center text-gold hover:bg-gold hover:text-obsidian transition"
+              class="w-11 h-11 rounded-full bg-[#111114]/90 border border-gold/25 flex items-center justify-center text-gold hover:bg-gold hover:text-obsidian transition"
             >
               <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
@@ -475,7 +525,7 @@
               type="button"
               onclick="nextHeroSlide()"
               aria-label="Siguiente plato"
-              class="w-11 h-11 rounded-full bg-[#13131A]/90 border border-gold/25 flex items-center justify-center text-gold hover:bg-gold hover:text-obsidian transition"
+              class="w-11 h-11 rounded-full bg-[#111114]/90 border border-gold/25 flex items-center justify-center text-gold hover:bg-gold hover:text-obsidian transition"
             >
               <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
@@ -542,7 +592,7 @@
             id="menuSearchInput"
             oninput="renderMenuGrid()"
             placeholder="Buscar plato o insumo..."
-            class="w-full pl-10 pr-4 py-3 rounded-2xl bg-[#13131A] border border-gold/25 text-sm text-stone-100 placeholder-stone-500 focus:outline-none focus:border-gold transition"
+            class="w-full pl-10 pr-4 py-3 rounded-2xl bg-[#111114] border border-gold/25 text-sm text-stone-100 placeholder-stone-500 focus:outline-none focus:border-gold transition"
           />
           <svg class="w-4 h-4 text-gold absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
@@ -608,11 +658,11 @@
             <div class="grid sm:grid-cols-2 gap-3">
               <div>
                 <label class="block text-xs text-stone-400 mb-1.5">Nombre del Agasajado</label>
-                <input type="text" id="gcRecipientInput" placeholder="Ej. Alejandro Mendoza" class="w-full px-4 py-3 rounded-2xl bg-[#13131A] border border-gold/25 text-sm text-white placeholder-stone-500 focus:outline-none focus:border-gold" />
+                <input type="text" id="gcRecipientInput" placeholder="Ej. Alejandro Mendoza" class="w-full px-4 py-3 rounded-2xl bg-[#111114] border border-gold/25 text-sm text-white placeholder-stone-500 focus:outline-none focus:border-gold" />
               </div>
               <div>
                 <label class="block text-xs text-stone-400 mb-1.5">Dedicatoria Breve (Opcional)</label>
-                <input type="text" id="gcMessageInput" placeholder="¡Feliz aniversario!" class="w-full px-4 py-3 rounded-2xl bg-[#13131A] border border-gold/25 text-sm text-white placeholder-stone-500 focus:outline-none focus:border-gold" />
+                <input type="text" id="gcMessageInput" placeholder="¡Feliz aniversario!" class="w-full px-4 py-3 rounded-2xl bg-[#111114] border border-gold/25 text-sm text-white placeholder-stone-500 focus:outline-none focus:border-gold" />
               </div>
             </div>
 
@@ -731,15 +781,15 @@
             Nacido en Chiclayo en 1983 y liderado por el chef Héctor Solís, <strong>Fiesta Restaurant</strong> ha transformado la cocina tradicional lambayecana en una expresión de alta gastronomía contemporánea sin perder el respeto absoluto por el producto de origen y la cocción lenta a leña y barro.
           </p>
           <div class="grid sm:grid-cols-3 gap-4 pt-2">
-            <div class="p-4 rounded-2xl bg-[#13131A] border border-gold/15">
+            <div class="p-4 rounded-2xl bg-[#111114] border border-gold/15">
               <p class="font-serif text-2xl font-bold text-gold">+40 Años</p>
               <p class="text-xs text-stone-400 mt-1">De historia y excelencia gastronómica familiar.</p>
             </div>
-            <div class="p-4 rounded-2xl bg-[#13131A] border border-gold/15">
+            <div class="p-4 rounded-2xl bg-[#111114] border border-gold/15">
               <p class="font-serif text-2xl font-bold text-aji">Loche & Ají</p>
               <p class="text-xs text-stone-400 mt-1">Insumos ancestrales con denominación de origen.</p>
             </div>
-            <div class="p-4 rounded-2xl bg-[#13131A] border border-gold/15">
+            <div class="p-4 rounded-2xl bg-[#111114] border border-gold/15">
               <p class="font-serif text-2xl font-bold text-moche">2 Sedes</p>
               <p class="text-xs text-stone-400 mt-1">Miraflores (Lima) y Av. Salaverry (Chiclayo).</p>
             </div>
@@ -762,7 +812,7 @@
 
       <div class="grid md:grid-cols-2 gap-8">
         <!-- Sede Lima -->
-        <div class="p-5 sm:p-7 rounded-3xl bg-[#13131A] border border-gold/25 flex flex-col justify-between space-y-6">
+        <div class="p-5 sm:p-7 rounded-3xl bg-[#111114] border border-gold/25 flex flex-col justify-between space-y-6">
           <div class="space-y-3">
             <div class="flex items-center justify-between">
               <span class="px-3 py-1 rounded-full bg-gold/15 text-gold text-xs font-semibold uppercase tracking-wider">Sede Principal</span>
@@ -786,7 +836,7 @@
         </div>
 
         <!-- Sede Chiclayo -->
-        <div class="p-5 sm:p-7 rounded-3xl bg-[#13131A] border border-gold/25 flex flex-col justify-between space-y-6">
+        <div class="p-5 sm:p-7 rounded-3xl bg-[#111114] border border-gold/25 flex flex-col justify-between space-y-6">
           <div class="space-y-3">
             <div class="flex items-center justify-between">
               <span class="px-3 py-1 rounded-full bg-aji/15 text-aji text-xs font-semibold uppercase tracking-wider">Casa Matriz</span>
@@ -825,13 +875,13 @@
         </div>
 
         <form onsubmit="submitCareerForm(event)" class="grid sm:grid-cols-2 gap-4">
-          <input type="text" required placeholder="Nombre completo" class="px-4 py-3.5 rounded-2xl bg-[#0B0B0F] border border-gold/25 text-sm text-white placeholder-stone-500 focus:outline-none focus:border-gold" />
-          <input type="email" required placeholder="Correo electrónico" class="px-4 py-3.5 rounded-2xl bg-[#0B0B0F] border border-gold/25 text-sm text-white placeholder-stone-500 focus:outline-none focus:border-gold" />
-          <select class="px-4 py-3.5 rounded-2xl bg-[#0B0B0F] border border-gold/25 text-sm text-stone-200 focus:outline-none focus:border-gold">
+          <input type="text" required placeholder="Nombre completo" class="px-4 py-3.5 rounded-2xl bg-[#040405] border border-gold/25 text-sm text-white placeholder-stone-500 focus:outline-none focus:border-gold" />
+          <input type="email" required placeholder="Correo electrónico" class="px-4 py-3.5 rounded-2xl bg-[#040405] border border-gold/25 text-sm text-white placeholder-stone-500 focus:outline-none focus:border-gold" />
+          <select class="px-4 py-3.5 rounded-2xl bg-[#040405] border border-gold/25 text-sm text-stone-200 focus:outline-none focus:border-gold">
             <option value="Lima">Sede Lima (Miraflores)</option>
             <option value="Chiclayo">Sede Chiclayo</option>
           </select>
-          <select class="px-4 py-3.5 rounded-2xl bg-[#0B0B0F] border border-gold/25 text-sm text-stone-200 focus:outline-none focus:border-gold">
+          <select class="px-4 py-3.5 rounded-2xl bg-[#040405] border border-gold/25 text-sm text-stone-200 focus:outline-none focus:border-gold">
             <option value="Cocina">Área de Cocina / Producción</option>
             <option value="Salon">Servicio en Salón / Sommelier</option>
             <option value="Bar">Coctelería & Bar</option>
@@ -939,7 +989,7 @@
        VENUE SWITCH SAFEGUARD MODAL
        ========================================================= -->
   <div id="venueSafeguardModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-    <div class="bg-[#13131A] border border-gold/40 rounded-3xl max-w-md w-full p-6 sm:p-7 space-y-5 shadow-2xl">
+    <div class="bg-[#111114] border border-gold/40 rounded-3xl max-w-md w-full p-6 sm:p-7 space-y-5 shadow-2xl">
       <div class="w-12 h-12 rounded-2xl bg-aji/15 border border-aji/40 text-aji flex items-center justify-center">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
@@ -970,10 +1020,10 @@
   <aside
     id="cartDrawer"
     aria-label="Carrito de compras"
-    class="fixed top-0 right-0 bottom-0 z-50 w-full max-w-md bg-[#0B0B0F] border-l border-gold/25 shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col"
+    class="fixed top-0 right-0 bottom-0 z-50 w-full max-w-md bg-[#040405] border-l border-gold/25 shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col"
   >
     <!-- Drawer Header -->
-    <div class="px-5 py-4 border-b border-gold/15 flex items-center justify-between bg-[#0E0E13]">
+    <div class="px-5 py-4 border-b border-gold/15 flex items-center justify-between bg-[#0A0A0C]">
       <div>
         <div class="flex items-center gap-2">
           <h2 class="font-serif text-lg font-bold text-white">Tu Pedido</h2>
@@ -997,7 +1047,7 @@
     <div class="flex-1 overflow-y-auto px-5 py-4 space-y-5">
 
       <!-- Delivery / Recojo Toggle -->
-      <div class="bg-[#13131A] p-1.5 rounded-2xl border border-gold/20 grid grid-cols-2 gap-1.5">
+      <div class="bg-[#111114] p-1.5 rounded-2xl border border-gold/20 grid grid-cols-2 gap-1.5">
         <button
           type="button"
           id="fulfillmentDeliveryBtn"
@@ -1017,7 +1067,7 @@
       </div>
 
       <!-- Customer & Delivery Details -->
-      <div class="space-y-3 bg-[#13131A]/70 p-4 rounded-2xl border border-gold/15">
+      <div class="space-y-3 bg-[#111114]/70 p-4 rounded-2xl border border-gold/15">
         <p class="text-[11px] uppercase tracking-widest text-gold font-semibold">Datos de Entrega</p>
         <input
           type="text"
@@ -1100,7 +1150,7 @@
     </div>
 
     <!-- Cart Footer Summary & WhatsApp Checkout -->
-    <div class="p-5 border-t border-gold/20 bg-[#0E0E13] space-y-3.5">
+    <div class="p-5 border-t border-gold/20 bg-[#0A0A0C] space-y-3.5">
       <div class="space-y-1.5 text-xs">
         <div class="flex justify-between text-stone-400">
           <span>Subtotal</span>
@@ -1135,8 +1185,8 @@
        ========================================================= -->
   <div id="reserveModal" class="fixed inset-0 z-[55] hidden" role="dialog" aria-modal="true" aria-label="Reservar mesa">
     <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeReservation()"></div>
-    <div class="absolute inset-x-0 bottom-0 sm:inset-y-6 sm:left-1/2 sm:-translate-x-1/2 sm:max-w-3xl w-full h-[92vh] sm:h-auto bg-[#0B0B0F] border border-gold/30 rounded-t-3xl sm:rounded-3xl shadow-2xl flex flex-col overflow-hidden">
-      <div class="px-5 py-4 border-b border-gold/15 bg-[#0E0E13] flex items-center justify-between gap-3">
+    <div class="absolute inset-x-0 bottom-0 sm:inset-y-6 sm:left-1/2 sm:-translate-x-1/2 sm:max-w-3xl w-full h-[92vh] sm:h-auto bg-[#040405] border border-gold/30 rounded-t-3xl sm:rounded-3xl shadow-2xl flex flex-col overflow-hidden">
+      <div class="px-5 py-4 border-b border-gold/15 bg-[#0A0A0C] flex items-center justify-between gap-3">
         <div>
           <h2 class="font-serif text-lg font-bold text-white">Reserva tu Mesa</h2>
           <p class="text-xs text-stone-400 mt-0.5">Confirmación inmediata • Mesa247</p>
@@ -1144,7 +1194,7 @@
         <button type="button" onclick="closeReservation()" aria-label="Cerrar reservas" class="w-9 h-9 rounded-full bg-white/5 hover:bg-gold/15 text-stone-300 hover:text-gold flex items-center justify-center transition">✕</button>
       </div>
       <div class="px-5 pt-4">
-        <div class="flex w-full sm:inline-flex sm:w-auto bg-[#13131A] p-1 rounded-full border border-gold/25" role="group" aria-label="Sede de la reserva">
+        <div class="flex w-full sm:inline-flex sm:w-auto bg-[#111114] p-1 rounded-full border border-gold/25" role="group" aria-label="Sede de la reserva">
           <button type="button" id="resBtnLima" onclick="setReservationVenue('lima')" class="flex-1 sm:flex-none px-4 py-1.5 rounded-full text-xs font-semibold transition">Lima • Miraflores</button>
           <button type="button" id="resBtnChiclayo" onclick="setReservationVenue('chiclayo')" class="flex-1 sm:flex-none px-4 py-1.5 rounded-full text-xs font-semibold transition">Chiclayo</button>
         </div>
@@ -1580,7 +1630,7 @@
             class="shrink-0 px-5 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase transition ${
               active
                 ? 'bg-gold text-obsidian shadow-gold'
-                : 'bg-[#13131A] text-stone-300 border border-gold/20 hover:border-gold/50 hover:text-white'
+                : 'bg-[#111114] text-stone-300 border border-gold/20 hover:border-gold/50 hover:text-white'
             }"
           >
             ${cat}
@@ -1606,7 +1656,7 @@
       const grid = document.getElementById('menuGrid');
       if (dishes.length === 0) {
         grid.innerHTML = `
-          <div class="col-span-full text-center py-16 bg-[#13131A]/60 rounded-3xl border border-gold/15">
+          <div class="col-span-full text-center py-16 bg-[#111114]/60 rounded-3xl border border-gold/15">
             <p class="font-serif text-lg text-stone-300">No encontramos platos con ese criterio.</p>
             <button type="button" onclick="document.getElementById('menuSearchInput').value=''; selectMenuCategory('Todos');" class="mt-3 text-xs text-gold underline">Ver toda la carta</button>
           </div>
@@ -1617,7 +1667,7 @@
       grid.innerHTML = dishes.map(dish => {
         const price = currentVenue === 'lima' ? dish.priceLima : dish.priceChiclayo;
         return `
-          <article class="group bg-[#13131A] border border-gold/20 hover:border-gold/50 rounded-3xl overflow-hidden flex flex-col justify-between transition duration-300 hover:-translate-y-1 shadow-lg">
+          <article class="group bg-[#111114] border border-gold/20 hover:border-gold/50 rounded-3xl overflow-hidden flex flex-col justify-between transition duration-300 hover:-translate-y-1 shadow-lg">
             <div>
               <div class="relative aspect-[16/10] overflow-hidden">
                 <img
@@ -1626,7 +1676,7 @@
                   loading="lazy"
                   class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
-                <div class="absolute inset-0 bg-gradient-to-t from-[#13131A] via-transparent to-transparent opacity-80"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-[#111114] via-transparent to-transparent opacity-80"></div>
                 <span class="absolute top-3 left-3 px-3 py-1 rounded-full bg-obsidian/80 backdrop-blur-md border border-gold/30 text-[10px] font-semibold uppercase tracking-wider text-gold">
                   ${dish.category}
                 </span>
@@ -1850,7 +1900,7 @@
       document.getElementById('gcAmountGrid').innerHTML = GC_AMOUNTS.map(a => {
         const on = a.value === selectedGiftCardAmount;
         return `<button type="button" onclick="selectGiftCardAmount(${a.value})" data-gc="${a.value}"
-          class="gc-amount-btn py-4 px-2 rounded-2xl border transition ${on ? 'border-gold bg-gold/10' : 'border-gold/20 bg-[#13131A] hover:border-gold/60'}">
+          class="gc-amount-btn py-4 px-2 rounded-2xl border transition ${on ? 'border-gold bg-gold/10' : 'border-gold/20 bg-[#111114] hover:border-gold/60'}">
           <span class="block font-bold text-lg ${on ? 'text-gold' : 'text-white'}">${gcMoney(a.value)}</span>
           <span class="block text-xs mt-0.5 ${on ? 'text-gold/80' : 'text-stone-400'}">${a.label}</span>
         </button>`;
@@ -1888,6 +1938,32 @@
       updateGiftPreview();
       document.getElementById('addGiftCardBtn').textContent = `Añadir Gift Card al Pedido • S/ ${amount.toLocaleString('es-PE')}`;
     }
+
+    // Inclinación 3D de la Gift Card (mouse o dedo) con brillo que sigue el puntero
+    (function () {
+      const scene = document.getElementById('gcFlip');
+      if (!scene || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const faces = scene.querySelectorAll('.gcx-face');
+      function tilt(e) {
+        const r = scene.getBoundingClientRect();
+        const x = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
+        const y = Math.min(1, Math.max(0, (e.clientY - r.top) / r.height));
+        scene.classList.add('tilting');
+        scene.style.setProperty('--ry', `${(x - 0.5) * 26}deg`);
+        scene.style.setProperty('--rx', `${(0.5 - y) * 20}deg`);
+        faces.forEach(f => { f.style.setProperty('--mx', `${x * 100}%`); f.style.setProperty('--my', `${y * 100}%`); });
+      }
+      function reset() {
+        scene.classList.remove('tilting');
+        scene.style.removeProperty('--ry'); scene.style.removeProperty('--rx');
+        faces.forEach(f => { f.style.removeProperty('--mx'); f.style.removeProperty('--my'); });
+      }
+      scene.addEventListener('pointermove', tilt);
+      scene.addEventListener('pointerdown', tilt);
+      scene.addEventListener('pointerleave', reset);
+      scene.addEventListener('pointerup', e => { if (e.pointerType !== 'mouse') reset(); });
+      scene.addEventListener('pointercancel', reset);
+    })();
 
     function flipGiftCard() {
       const flipped = document.getElementById('gcFlip').classList.toggle('flipped');
@@ -2080,7 +2156,7 @@
         <div class="p-3 rounded-xl bg-[#09090D]/90 border border-gold/20 space-y-2">
           <p class="text-xs font-bold text-gold">${acc.bank}</p>
 
-          <div class="flex items-center justify-between gap-2 bg-[#13131A] px-2.5 py-1.5 rounded-lg border border-white/5">
+          <div class="flex items-center justify-between gap-2 bg-[#111114] px-2.5 py-1.5 rounded-lg border border-white/5">
             <div class="min-w-0">
               <span class="text-[10px] uppercase tracking-wider text-stone-400 block">N° de Cuenta</span>
               <span class="text-xs font-mono font-semibold text-white select-all">${acc.accountNumber}</span>
@@ -2094,7 +2170,7 @@
             </button>
           </div>
 
-          <div class="flex items-center justify-between gap-2 bg-[#13131A] px-2.5 py-1.5 rounded-lg border border-white/5">
+          <div class="flex items-center justify-between gap-2 bg-[#111114] px-2.5 py-1.5 rounded-lg border border-white/5">
             <div class="min-w-0">
               <span class="text-[10px] uppercase tracking-wider text-stone-400 block">Código Interbancario (CCI)</span>
               <span class="text-xs font-mono font-semibold text-stone-200 select-all">${acc.cci}</span>
@@ -2189,7 +2265,7 @@
       if (cart.length === 0) {
         clearBtn.classList.add('hidden');
         container.innerHTML = `
-          <div class="p-6 rounded-2xl bg-[#13131A]/60 border border-gold/15 text-center space-y-2">
+          <div class="p-6 rounded-2xl bg-[#111114]/60 border border-gold/15 text-center space-y-2">
             <p class="font-serif text-sm text-stone-300">Tu carrito está vacío</p>
             <p class="text-xs text-stone-500">Explora nuestros platos estelares o experiencias Gift Card para comenzar.</p>
           </div>
@@ -2197,7 +2273,7 @@
       } else {
         clearBtn.classList.remove('hidden');
         container.innerHTML = cart.map((item, idx) => `
-          <div class="p-3 rounded-2xl bg-[#13131A] border border-gold/20 flex items-center gap-3">
+          <div class="p-3 rounded-2xl bg-[#111114] border border-gold/20 flex items-center gap-3">
             <img
               src="${item.image}"
               alt="${item.name}"
